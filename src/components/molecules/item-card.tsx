@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Image, Text, View} from 'react-native';
 import {Colors, SharedStyles, Typography} from '../../style';
 import CategoryPill from '../atoms/category-pill';
 import PressableOpacity from '../atoms/PressableOpacity';
@@ -20,6 +20,9 @@ interface Props {
 }
 
 const ItemCard: React.FC<Props> = props => {
+
+  console.log(props.storeLogoUrl)
+
   return (
     <View
       style={[
@@ -129,7 +132,6 @@ const ItemCard: React.FC<Props> = props => {
 
           <View
             style={{
-              backgroundColor: '#000000',
               position: 'absolute',
               width: 60,
               height: 60,
@@ -137,9 +139,11 @@ const ItemCard: React.FC<Props> = props => {
               transform: [{rotate: '30deg'}],
               right: 0,
               top: -20,
-              opacity: 0.1,
+              opacity: 0.3,
             }}
-          />
+          >
+            <Image style={{flex: 1, aspectRatio: 1/1, resizeMode: 'contain'}} source={{uri: props.storeLogoUrl}} />
+          </View>
         </View>
       </View>
     </View>

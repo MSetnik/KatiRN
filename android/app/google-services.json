@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1023141717354",
+    "project_id": "kati---lovac-na-kataloge",
+    "storage_bucket": "kati---lovac-na-kataloge.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023141717354:android:fac9c942cb6f80d819f113",
+        "android_client_info": {
+          "package_name": "com.katirn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1023141717354-m08l2elu2mt3qstk6pgc5r3g65f6qeao.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmwc_OfsJNZk5PSOEfBjhDCljeeGRNXl8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1023141717354-m08l2elu2mt3qstk6pgc5r3g65f6qeao.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
