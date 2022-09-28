@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Text } from 'react-native'
 import { Colors, Typography } from '../../style'
 import PressableOpacity from './PressableOpacity'
 
@@ -16,7 +16,7 @@ const CategoryPill : React.FC<Props> = (props) => {
   return (
     <PressableOpacity
         isDisabled={props.isDisabled}
-        onPress={() => {}}
+        onPress={props.onPress ? props.onPress : () => {}}
         style={[{
           borderRadius: 50,
           backgroundColor: props.selected ? Colors.themeColor().secondary : Colors.themeColor().secondaryLight,
