@@ -6,7 +6,7 @@ import { Colors } from '../style'
 const SpecialOffer = () => {
   return (
     <ScrollView style={{ flex: 1, backgroundColor: Colors.themeColor().background }}>
-        <CategoryItems categoryTitle='Posebna ponuda' showButton={false} />
+        <CategoryItems categoryId='1' categoryTitle='Posebna ponuda' showButton={false} />
     </ScrollView>
   )
 }

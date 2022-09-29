@@ -11,10 +11,10 @@ interface Props {
   itemName: string;
   itemDescription: string;
   itemDiscountPercent: string;
-  itemDiscountedPrice: string;
-  itemFullPrice: string;
-  itemDiscountedPriceEur: string;
-  itemFullPriceEur: string;
+  itemDiscountedPrice: number;
+  itemFullPrice: number;
+  itemDiscountedPriceEur: any;
+  itemFullPriceEur: any;
   storeLogoUrl: string | undefined;
 }
 
@@ -36,11 +36,13 @@ const ItemCard: React.FC<Props> = props => {
         style={{
           width: '90%',
           aspectRatio: 4 / 3,
-          backgroundColor: Colors.themeColor().backgroundDark,
+          // backgroundColor: Colors.themeColor().backgroundDark,
           alignSelf: 'center',
           borderRadius: Typography.FONT_SIZE_TITLE_MD / 4
         }}
-      />
+      >
+        <Image style={{ flex: 1, resizeMode: 'contain' }} source={{ uri: props.imgUrl }} />
+      </View>
 
       <View
         style={{
@@ -71,7 +73,7 @@ const ItemCard: React.FC<Props> = props => {
               flex: 1
             }}>
             <CategoryPill
-              text="-20%"
+              text={props.itemDiscountPercent + '%'}
               isDisabled={true}
               style={{
                 paddingHorizontal: 5,
@@ -85,7 +87,7 @@ const ItemCard: React.FC<Props> = props => {
             />
 
             <Text style={{ marginTop: Typography.FONT_SIZE_NORMAL / 4 }}>
-              {props.itemDiscountedPrice}
+              {props.itemDiscountedPrice + ' kn'}
             </Text>
             <Text
               style={{
@@ -94,10 +96,10 @@ const ItemCard: React.FC<Props> = props => {
                 textDecorationLine: 'line-through',
                 color: Colors.themeColor().textSecondary
               }}>
-              {props.itemFullPrice}
+              {props.itemFullPrice + ' kn'}
             </Text>
             <Text style={{ marginTop: Typography.FONT_SIZE_NORMAL / 4 }}>
-              {props.itemDiscountedPriceEur}
+              {props.itemDiscountedPriceEur + '€'}
             </Text>
             <Text
               style={{
@@ -106,7 +108,7 @@ const ItemCard: React.FC<Props> = props => {
                 textDecorationLine: 'line-through',
                 color: Colors.themeColor().textSecondary
               }}>
-              {props.itemDiscountedPriceEur}
+              {props.itemFullPriceEur + '€'}
             </Text>
           </View>
 

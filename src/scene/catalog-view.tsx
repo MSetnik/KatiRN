@@ -62,8 +62,8 @@ const CatalogView: React.FC<Props> = ({ navigation }) => {
             paddingBottom: Typography.FONT_SIZE_TITLE_LG
           }}
           >
-            <CategoryItems categoryTitle='Meso' showButton={false} />
-            <CategoryItems categoryTitle='Za kuću' showButton={false} />
+            <CategoryItems categoryId='1' categoryTitle='Meso' showButton={false} />
+            <CategoryItems categoryId='1' categoryTitle='Za kuću' showButton={false} />
 
         </ScrollView>
 

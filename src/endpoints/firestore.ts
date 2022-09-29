@@ -1,6 +1,6 @@
 import { firestore } from './firebase-init'
 import { collection, getDocs } from 'firebase/firestore'
-import { ICategory, IStores } from '../interfaces/endpoints'
+import { ICategory, IProduct, IStores } from '../interfaces/endpoints'
 
 // Fetching store data
 export const getStoreData = async () => {
@@ -29,4 +29,27 @@ export const getCategories = async () => {
     return category
   })
   return lCategories
+}
+
+// Fetching products data
+export const getAllProducts = async () => {
+  const productsCol = collection(firestore, 'product')
+  const productsSnapshot = await getDocs(productsCol)
+  const lProducts = productsSnapshot.docs.map(doc => {
+    console.log(doc.data().startAt)
+    const product : IProduct = {
+      id: doc.id,
+      name: doc.data().name,
+      categoryId: doc.data().categoryId,
+      storeId: doc.data().storeId,
+      description: doc.data().description,
+      fullPrice: doc.data().fullPrice,
+      discountedPrice: doc.data().discountedPrice,
+      imgUrl: doc.data().imgUrl,
+      startAt: doc.data().startAt.seconds,
+      endAt: doc.data().endAt.seconds
+    }
+    return product
+  })
+  return lProducts
 }

@@ -1,10 +1,10 @@
 {
   "name": "KatiRN",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "ios": "react-native run-ios --simulator='iPhone 13 Pro'",
+    "ios": "react-native run-ios --simulator='iPhone 14 Pro'",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
