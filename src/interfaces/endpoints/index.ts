@@ -1,3 +1,5 @@
+import { Double } from 'react-native/Libraries/Types/CodegenTypes'
+
 export interface IStores {
     id: string,
     name: string,
@@ -27,4 +29,12 @@ export interface ICatalog {
     dateFrom: string,
     dateTo: string,
     storeId: string,
+}
+
+export interface IShoppingListItem {
+    id: string,
+    storeId: string,
+    name: string
+    fullPrice: Double,
+    discountedPrice: Double,
 }

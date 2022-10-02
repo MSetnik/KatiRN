@@ -7,6 +7,7 @@ import CatalogView from './src/scene/catalog-view'
 
 import { Provider } from 'react-redux'
 import { globalStore } from './src/store'
+import ShoppingList from './src/scene/shopping-list'
 
 const Stack = createNativeStackNavigator()
 
@@ -18,6 +19,7 @@ export default function App () {
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="SpecialOffer" component={SpecialOffer} />
           <Stack.Screen name="CatalogView" component={CatalogView} />
+          <Stack.Screen name="ShoppingList" component={ShoppingList} options={{ presentation: 'modal' }} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

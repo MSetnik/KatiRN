@@ -23,6 +23,8 @@ const CategoryItems : React.FC<Props> = (props) => {
   const { products } = useSelector((state: any) => state.products)
   const { categories } = useSelector((state: any) => state.categories)
 
+  const dateNow = new Date().getTime().toString().substring(0, 10)
+
   const getStoreImg = (storeId: string) => {
     const imgArray = stores.map((store: IStores) => {
       let img: any
@@ -131,8 +133,10 @@ const CategoryItems : React.FC<Props> = (props) => {
               // } else {
               //   return null
               // }
-              if (item.categoryId === '1') {
+              if (item.categoryId === '1' && dateNow >= item.startAt && dateNow <= item.endAt) {
                 return <ItemCard
+                  storeId={item.storeId}
+                  itemId={item.id}
                   imgUrl={item.imgUrl}
                   itemName={item.name}
                   itemDescription={item.description}
@@ -161,8 +165,10 @@ const CategoryItems : React.FC<Props> = (props) => {
                 onViewableItemsChanged={ onViewableItemsChanged }
                 viewabilityConfig={ viewabilityConfig }
                 renderItem={({ item }) => {
-                  if (item.categoryId === props.categoryId) {
+                  if (item.categoryId === props.categoryId && dateNow >= item.startAt && dateNow <= item.endAt) {
                     return <ItemCard
+                      storeId={item.storeId}
+                      itemId={item.id}
                       imgUrl={item.imgUrl}
                       itemName={item.name}
                       itemDescription={item.description}

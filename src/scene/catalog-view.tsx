@@ -3,7 +3,7 @@ import { FlatList, ScrollView, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import CategoryPill from '../components/atoms/category-pill'
 import CategoryItems from '../components/organisms/category-items'
-import { checkIfCategoryHasItemsHelper, getProductsFromStoreCatalog } from '../helpers'
+import { checkIfCatalogCategoryHasItemsHelper, checkIfCategoryHasItemsHelper, getProductsFromStoreCatalog } from '../helpers'
 import { ICatalog, ICategory, IProduct } from '../interfaces/endpoints'
 import { globalStore } from '../store'
 import { fetchStoreCatalog } from '../store/catalog-slice'
@@ -104,7 +104,7 @@ const CatalogView: React.FC<Props> = ({ navigation, route }) => {
             }}
             ref={productsListRef}
             initialScrollIndex={selectedIndex}
-            data={checkIfCategoryHasItemsHelper(categories, productsFromCatalog)}
+            data={checkIfCatalogCategoryHasItemsHelper(categories, productsFromCatalog)}
             renderItem={({ item, index }) => {
               return <CategoryItems key={index} categoryTitle={item.name} categoryId={item.id} showButton={false} storeId={storeId} setSelectedCategory={setSelectedIndex} />
             }}/>

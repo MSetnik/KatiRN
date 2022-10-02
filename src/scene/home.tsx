@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { View, Text } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import PressableOpacity from '../components/atoms/PressableOpacity'
 import ViewpagerHeader from '../components/molecules/viewpager-header'
 import HomeTodayView from '../components/organisms/home-today-view'
 import { getCategories, getStoreData } from '../endpoints/firestore'
@@ -12,7 +13,11 @@ import { fetchStores, setStores } from '../store/store-slice'
 import { Colors } from '../style'
 import HomeCatalogs from './home-catalogs'
 
-const Home = (props: any) => {
+interface Props {
+  navigation: any
+}
+
+const Home: React.FC<Props> = (props: any) => {
   const [selectedElementIndex, setSelectedElementIndex] = useState(0)
 
   // redux
@@ -24,7 +29,20 @@ const Home = (props: any) => {
     dispatch(fetchCategories())
     dispatch(fetchStores())
     dispatch(fetchAllProducts())
+    dispatch(fetchCatalogs())
   }, [])
+
+  useLayoutEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => (
+            <PressableOpacity
+              onPress={() => props!.navigation.navigate('ShoppingList')}
+            >
+              <Text>Lista</Text>
+            </PressableOpacity>
+      )
+    })
+  }, [props.navigation])
 
   return (
     <View

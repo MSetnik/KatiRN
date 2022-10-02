@@ -5,8 +5,12 @@ import CategoryPill from '../atoms/category-pill'
 import PressableOpacity from '../atoms/PressableOpacity'
 
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import { useDispatch, useSelector } from 'react-redux'
+import { addToList } from '../../store/shopping-list-slice'
+import { IProduct, IShoppingListItem } from '../../interfaces/endpoints'
 
 interface Props {
+  itemId: string
   imgUrl: string;
   itemName: string;
   itemDescription: string;
@@ -15,10 +19,21 @@ interface Props {
   itemFullPrice: number;
   itemDiscountedPriceEur: any;
   itemFullPriceEur: any;
+  storeId: string,
   storeLogoUrl: string | undefined;
 }
 
 const ItemCard: React.FC<Props> = props => {
+  const dispatch = useDispatch()
+
+  const product : IShoppingListItem = {
+    id: props.itemId,
+    name: props.itemName,
+    fullPrice: props.itemFullPrice,
+    discountedPrice: props.itemDiscountedPrice,
+    storeId: props.storeId
+  }
+
   return (
     <View
       style={[
@@ -118,7 +133,9 @@ const ItemCard: React.FC<Props> = props => {
               paddingBottom: Typography.FONT_SIZE_TITLE_MD / 2,
               justifyContent: 'flex-end'
             }}>
-            <PressableOpacity onPress={() => {}} style={{}} isDisabled={false}>
+            <PressableOpacity onPress={() => {
+              dispatch(addToList(product))
+            }} style={{}} isDisabled={false}>
               <Icon
                 name="add-shopping-cart"
                 size={Typography.FONT_SIZE_TITLE_MD}

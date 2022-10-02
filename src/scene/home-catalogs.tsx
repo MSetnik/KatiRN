@@ -2,6 +2,7 @@ import React from 'react'
 import { FlatList, ScrollView, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import CatalogCard from '../components/molecules/catalog-card'
+import { getStoresFromCatalogsWithProducts } from '../helpers'
 import { IStores } from '../interfaces/endpoints'
 import { Typography } from '../style'
 import CatalogView from './catalog-view'
@@ -12,6 +13,8 @@ interface Props {
 
 const HomeCatalogs: React.FC<Props> = ({ navigation }) => {
   const { stores } = useSelector((state: any) => state.stores)
+  const { catalog } = useSelector((state: any) => state.catalogs)
+  const { products } = useSelector((state: any) => state.products)
 
   return (
     <FlatList style={{
@@ -22,7 +25,7 @@ const HomeCatalogs: React.FC<Props> = ({ navigation }) => {
       paddingBottom: Typography.FONT_SIZE_TITLE_MD,
       marginTop: -Typography.FONT_SIZE_TITLE_MD / 2
     }}
-      data={stores}
+      data={getStoresFromCatalogsWithProducts(products, catalog, stores)}
       renderItem={({ item }) => {
         return (
           <CatalogCard
