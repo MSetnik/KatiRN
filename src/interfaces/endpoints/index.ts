@@ -18,6 +18,13 @@ export interface IProduct {
     fullPrice: number,
     discountedPrice: number,
     description: string,
-    startAt: Date,
-    endAt: Date
+    startAt: string,
+    endAt: string
+}
+
+export interface ICatalog {
+    id: string,
+    dateFrom: string,
+    dateTo: string,
+    storeId: string,
 }

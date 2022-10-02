@@ -1,6 +1,6 @@
 {
   "name": "KatiRN",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -47,6 +47,9 @@
   },
   "jest": {
     "preset": "react-native",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(@react-native|react-native|react-native-vector-icons)/)"
+    ],
     "moduleFileExtensions": [
       "ts",
       "tsx",

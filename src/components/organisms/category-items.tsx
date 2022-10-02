@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React, { useCallback, useEffect } from 'react'
 import { View, Text, ScrollView, FlatList } from 'react-native'
 import { Double } from 'react-native/Libraries/Types/CodegenTypes'
@@ -14,6 +15,7 @@ interface Props {
     isHorizontal?: boolean,
     onPress?: () => {},
     setSelectedCategory?: any,
+    storeId?: string
 }
 
 const CategoryItems : React.FC<Props> = (props) => {
@@ -43,8 +45,6 @@ const CategoryItems : React.FC<Props> = (props) => {
   }, [products])
 
   const calculatePercentage = (discountedPrice: number, fullPrice: number) : string => {
-    console.log(discountedPrice)
-    console.log(fullPrice)
     const percent = (100 - (fullPrice * 100) / discountedPrice)
 
     return percent.toFixed(0)
@@ -81,7 +81,7 @@ const CategoryItems : React.FC<Props> = (props) => {
       // if(viewableItems[viewableItems.length - 1].item.categoryId)
       for (let i = 0; i < categories.length; i++) {
         if (categories[i].id === viewableItems[viewableItems.length - 1].item.categoryId) {
-          console.log(viewableItems)
+          // console.log(viewableItems)
           // console.log(checkIfCategoryHasItems().length - 1 + 'from items')
           props.setSelectedCategory(checkIfCategoryHasItems(i).currentCategoryIndex - 2)
           // console.log(checkIfCategoryHasItems(i).currentCategoryIndex)
@@ -148,10 +148,9 @@ const CategoryItems : React.FC<Props> = (props) => {
             />
             : <FlatList
                 numColumns={2}
-                // horizontal={props.isHorizontal}
                 showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}
-                data={products.filter(p => p.categoryId === props.categoryId)}
+                data={props.storeId === undefined ? products.filter((p: IProduct) => p.categoryId === props.categoryId) : products.filter((p: IProduct) => p.categoryId === props.categoryId && p.storeId === props.storeId)}
                 contentContainerStyle={{
                   marginLeft: '5%'
                 }}
@@ -181,152 +180,35 @@ const CategoryItems : React.FC<Props> = (props) => {
               />
         }
 
-        {/* <ScrollView
-          horizontal={props.isHorizontal}
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingHorizontal: Typography.FONT_SIZE_TITLE_MD / 2
-          }}
-          style={{
-            paddingBottom: Typography.FONT_SIZE_NORMAL / 2
-          }}>
-            {
-                products.map((p: IProduct, i: number) => {
-                  if (p.categoryId === props.categoryId) {
-                    return props.isHorizontal
-                      ? <>
-                          <ItemCard
-                              imgUrl=""
-                              itemName="Piletina"
-                              itemDescription="1 kg"
-                              itemDiscountPercent="20%"
-                              itemDiscountedPrice="49,99 kn"
-                              itemFullPrice="69,99 kn"
-                              itemDiscountedPriceEur="7,49 eur"
-                              itemFullPriceEur="10,99 eur"
-                              storeLogoUrl={stores.length !== 0 ? stores[3].imgUrl : undefined }
-                          />
-                          <ItemCard
-                              imgUrl=""
-                              itemName="Piletina"
-                              itemDescription="1 kg"
-                              itemDiscountPercent="20%"
-                              itemDiscountedPrice="49,99 kn"
-                              itemFullPrice="69,99 kn"
-                              itemDiscountedPriceEur="7,49 eur"
-                              itemFullPriceEur="10,99 eur"
-                              storeLogoUrl={stores.length !== 0 ? stores[2].imgUrl : undefined }
-                          />
-                          <ItemCard
-                              imgUrl=""
-                              itemName="Piletina"
-                              itemDescription="1 kg"
-                              itemDiscountPercent="20%"
-                              itemDiscountedPrice="49,99 kn"
-                              itemFullPrice="69,99 kn"
-                              itemDiscountedPriceEur="7,49 eur"
-                              itemFullPriceEur="10,99 eur"
-                              storeLogoUrl={stores.length !== 0 ? stores[1].imgUrl : undefined }
-                          />
-                          <ItemCard
-                              imgUrl=""
-                              itemName="Piletina"
-                              itemDescription="1 kg"
-                              itemDiscountPercent="20%"
-                              itemDiscountedPrice="49,99 kn"
-                              itemFullPrice="69,99 kn"
-                              itemDiscountedPriceEur="7,49 eur"
-                              itemFullPriceEur="10,99 eur"
-                              storeLogoUrl={stores.length !== 0 ? stores[4].imgUrl : undefined }
-                          />
-                      </>
-                      : <View key={i}>
-                          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                              <ItemCard
-                                  imgUrl={p.imgUrl}
-                                  itemName={p.name}
-                                  itemDescription={p.description}
-                                  itemDiscountPercent={((parseFloat(p.discountedPrice) / parseFloat(p.fullPrice)) * 100).toFixed(0)}
-                                  itemDiscountedPrice={p.discountedPrice}
-                                  itemFullPrice={p.fullPrice}
-                                  itemDiscountedPriceEur={(parseFloat(p.discountedPrice) / 7.53450).toFixed(2)}
-                                  itemFullPriceEur={(parseFloat(p.fullPrice) / 7.53450).toFixed(2)}
-                                  storeLogoUrl={stores.length !== 0 ? stores.map((store: IStores) => store.id === p.storeId && store.imgUrl) : undefined }
-                              />
-                              <ItemCard
-                                  imgUrl=""
-                                  itemName="Piletina"
-                                  itemDescription="1 kg"
-                                  itemDiscountPercent="20%"
-                                  itemDiscountedPrice="49,99 kn"
-                                  itemFullPrice="69,99 kn"
-                                  itemDiscountedPriceEur="7,49 eur"
-                                  itemFullPriceEur="10,99 eur"
-                                  storeLogoUrl={stores.length !== 0 ? stores[0].imgUrl : undefined }
-                              />
-                          </View>
-                          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                              <ItemCard
-                                  imgUrl=""
-                                  itemName="Piletina"
-                                  itemDescription="1 kg"
-                                  itemDiscountPercent="20%"
-                                  itemDiscountedPrice="49,99 kn"
-                                  itemFullPrice="69,99 kn"
-                                  itemDiscountedPriceEur="7,49 eur"
-                                  itemFullPriceEur="10,99 eur"
-                                  storeLogoUrl={stores.length !== 0 ? stores[4].imgUrl : undefined }
-                              />
-                              <ItemCard
-                                  imgUrl=""
-                                  itemName="Piletina"
-                                  itemDescription="1 kg"
-                                  itemDiscountPercent="20%"
-                                  itemDiscountedPrice="49,99 kn"
-                                  itemFullPrice="69,99 kn"
-                                  itemDiscountedPriceEur="7,49 eur"
-                                  itemFullPriceEur="10,99 eur"
-                                  storeLogoUrl={stores.length !== 0 ? stores[3].imgUrl : undefined }
-                              />
-                          </View>
-                      </View>
-                  } else {
-                    return null
-                  }
-                })
-            }
+        {
+          props.showButton &&
+          <View
+              style={{
+                flexDirection: 'row',
+                paddingHorizontal: Typography.FONT_SIZE_TITLE_MD,
+                justifyContent: 'center',
+                marginBottom: Typography.FONT_SIZE_TITLE_MD / 2
 
-        </ScrollView> */}
-
-          {
-            props.showButton &&
-            <View
-                style={{
-                  flexDirection: 'row',
-                  paddingHorizontal: Typography.FONT_SIZE_TITLE_MD,
-                  justifyContent: 'center',
-                  marginBottom: Typography.FONT_SIZE_TITLE_MD / 2
-
-                }}>
-                <PressableOpacity
-                onPress={props.onPress ? props.onPress : () => {}}
-                style={{
-                  backgroundColor: Colors.themeColor().primary,
-                  flex: 1,
-                  alignItems: 'center',
-                  borderRadius: Typography.FONT_SIZE_TITLE_MD / 2,
-                  paddingVertical: Typography.FONT_SIZE_TITLE_MD / 2
-                }}>
-                    <Text
-                        style={{
-                          color: Colors.themeColor().background,
-                          fontWeight: Typography.FONT_WEIGHT_MEDIUM
-                        }}>
-                        Prikaži više
-                    </Text>
-                </PressableOpacity>
-            </View>
-          }
+              }}>
+              <PressableOpacity
+              onPress={props.onPress ? props.onPress : () => {}}
+              style={{
+                backgroundColor: Colors.themeColor().primary,
+                flex: 1,
+                alignItems: 'center',
+                borderRadius: Typography.FONT_SIZE_TITLE_MD / 2,
+                paddingVertical: Typography.FONT_SIZE_TITLE_MD / 2
+              }}>
+                  <Text
+                      style={{
+                        color: Colors.themeColor().background,
+                        fontWeight: Typography.FONT_WEIGHT_MEDIUM
+                      }}>
+                      Prikaži više
+                  </Text>
+              </PressableOpacity>
+          </View>
+        }
 
       </View>
   )

@@ -2,10 +2,13 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { FlatList, ScrollView } from 'react-native'
 import { useSelector } from 'react-redux'
-import { ICategory, IProduct } from '../../interfaces/endpoints'
+import { ICategory } from '../../interfaces/endpoints'
 import { Typography } from '../../style'
 import CategoryPill from '../atoms/category-pill'
 import CategoryItems from './category-items'
+
+// helpers
+import { checkIfCategoryHasItemsHelper } from '../../helpers'
 
 const HomeTodayView = (props: any) => {
   // const dispatch = useDispatch();
@@ -17,26 +20,10 @@ const HomeTodayView = (props: any) => {
   // ref
   const productsListRef = useRef<FlatList>(null)
 
-  const checkIfCategoryHasItems = () => {
-    const categoriesWithProductsHelper: ICategory[] = []
-    categories.map((c: ICategory) => {
-      let hasCategoryItems: boolean = false
-      products.map((p: IProduct) => {
-        if (p.categoryId === c.id && !hasCategoryItems && p.categoryId !== '1') {
-          categoriesWithProductsHelper.push(c)
-          hasCategoryItems = true
-        }
-      })
-    })
-
-    setCategoriesWithProducts(categoriesWithProductsHelper)
-  }
-
   useEffect(() => {
-    checkIfCategoryHasItems()
+    // checkIfCategoryHasItems()
+    setCategoriesWithProducts(checkIfCategoryHasItemsHelper(categories, products))
   }, [categories, products])
-
-  console.log(selectedIndex)
 
   return (
     <>
@@ -62,7 +49,6 @@ const HomeTodayView = (props: any) => {
                           index,
                           animated: true
                         })
-                        // productsListRef.current.scrollToIndex(0.2)
                       }}
                     />
 

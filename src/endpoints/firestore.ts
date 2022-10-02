@@ -1,6 +1,6 @@
 import { firestore } from './firebase-init'
-import { collection, getDocs } from 'firebase/firestore'
-import { ICategory, IProduct, IStores } from '../interfaces/endpoints'
+import { collection, getDocs, query, where } from 'firebase/firestore'
+import { ICatalog, ICategory, IProduct, IStores } from '../interfaces/endpoints'
 
 // Fetching store data
 export const getStoreData = async () => {
@@ -17,7 +17,7 @@ export const getStoreData = async () => {
   return lStores
 }
 
-// Fetching store data
+// Fetching category data
 export const getCategories = async () => {
   const storeCol = collection(firestore, 'category')
   const categorySnapshot = await getDocs(storeCol)
@@ -36,7 +36,6 @@ export const getAllProducts = async () => {
   const productsCol = collection(firestore, 'product')
   const productsSnapshot = await getDocs(productsCol)
   const lProducts = productsSnapshot.docs.map(doc => {
-    console.log(doc.data().startAt)
     const product : IProduct = {
       id: doc.id,
       name: doc.data().name,
@@ -52,4 +51,37 @@ export const getAllProducts = async () => {
     return product
   })
   return lProducts
+}
+
+// Fetching catalog data
+export const getAllCatalog = async () => {
+  const catalogCol = collection(firestore, 'catalog')
+  const catalogSnapshot = await getDocs(catalogCol)
+  const lCatalogs = catalogSnapshot.docs.map(doc => {
+    const catalog : ICatalog = {
+      id: doc.id,
+      storeId: doc.data().storeId,
+      dateFrom: doc.data().dateFrom.seconds,
+      dateTo: doc.data().dateTo.seconds
+    }
+    return catalog
+  })
+  return lCatalogs
+}
+
+// Fetching catalog data
+export const getStoreCatalog = async (storeId: string) => {
+  const catalogCol = collection(firestore, 'catalog')
+  const q = query(catalogCol, where('storeId', '==', storeId))
+  const catalogSnapshot = await getDocs(q)
+  const lCatalogs = catalogSnapshot.docs.map(doc => {
+    const catalog : ICatalog = {
+      id: doc.id,
+      storeId: doc.data().storeId,
+      dateFrom: doc.data().dateFrom.seconds,
+      dateTo: doc.data().dateTo.seconds
+    }
+    return catalog
+  })
+  return lCatalogs
 }
