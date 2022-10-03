@@ -1,4 +1,4 @@
-import { ICatalog, ICategory, IProduct, IStores } from '../interfaces/endpoints'
+import { ICatalog, ICategory, IProduct, IShoppingListItem, IStores } from '../interfaces/endpoints'
 
 export const checkIfCategoryHasItemsHelper = (categories: ICategory[], products: IProduct[]) => {
   const categoriesWithProductsHelper: ICategory[] = []
@@ -66,12 +66,47 @@ export const checkIfCatalogCategoryHasItemsHelper = (categories: ICategory[], pr
   const dateNow = new Date().getTime().toString().substr(0, 10)
 
   categories.map((c: ICategory) => {
+    let categoryHelper: boolean = false
     products.map((p: IProduct) => {
-      if (p.categoryId === c.id && dateNow >= p.startAt && dateNow <= p.endAt) {
+      if (p.categoryId === c.id && dateNow >= p.startAt && dateNow <= p.endAt && !categoryHelper) {
         categoriesWithProductsHelper.push(c)
+        categoryHelper = true
       }
     })
   })
 
   return categoriesWithProductsHelper
+}
+
+export const shoppingListToRender = (shoppingList: IShoppingListItem[], stores: IStores[]) => {
+  const shoppingListHelper: any[] = []
+
+  stores.forEach((store: IStores) => {
+    const shoppingListItems: IShoppingListItem[] = []
+
+    shoppingList.forEach((sl: IShoppingListItem) => {
+      if (store.id === sl.storeId) {
+        shoppingListItems.push(sl)
+      }
+    })
+
+    if (shoppingListItems.length !== 0) {
+      const storeShoppingItem = {
+        storeId: store.id,
+        storeImg: store.imgUrl,
+        storeName: store.name,
+        items: shoppingListItems
+      }
+
+      shoppingListHelper.push(storeShoppingItem)
+    }
+  })
+
+  return shoppingListHelper
+}
+
+export const calculatePercentage = (discountedPrice: number, fullPrice: number) : string => {
+  const percent = (100 - (fullPrice * 100) / discountedPrice)
+
+  return percent.toFixed(0)
 }

@@ -13,7 +13,7 @@ const PressableOpacity : React.FC<Props> = (props) => {
   return (
     <Pressable
         style={[{ opacity }, props.style]}
-        onPress={props.onPress}
+        onPress={props.isDisabled ? () => {} : props.onPress}
         onPressIn={() => !props.isDisabled && setOpacity(0.5)}
         onPressOut={() => !props.isDisabled && setOpacity(1)}
         hitSlop={5}

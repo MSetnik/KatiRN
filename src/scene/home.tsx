@@ -1,5 +1,6 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { View, Text } from 'react-native'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 import { useDispatch, useSelector } from 'react-redux'
 import PressableOpacity from '../components/atoms/PressableOpacity'
 import ViewpagerHeader from '../components/molecules/viewpager-header'
@@ -10,8 +11,9 @@ import { fetchCatalogs } from '../store/catalog-slice'
 import { fetchCategories, setCategories } from '../store/category-slice'
 import { fetchAllProducts } from '../store/product-stlice'
 import { fetchStores, setStores } from '../store/store-slice'
-import { Colors } from '../style'
+import { Colors, Typography } from '../style'
 import HomeCatalogs from './home-catalogs'
+import Lottie from 'lottie-react-native'
 
 interface Props {
   navigation: any
@@ -22,8 +24,10 @@ const Home: React.FC<Props> = (props: any) => {
 
   // redux
   const dispatch = useDispatch()
-  const { loading } = useSelector((state: any) => state.categories)
   const { products } = useSelector((state: any) => state.products)
+  const { loading } = useSelector((state: any) => state.shoppingList)
+
+  const animationRef = useRef<Lottie>(null)
 
   useEffect(() => {
     dispatch(fetchCategories())
@@ -32,14 +36,27 @@ const Home: React.FC<Props> = (props: any) => {
     dispatch(fetchCatalogs())
   }, [])
 
+  if (loading) {
+    setTimeout(() => {
+      animationRef.current?.play()
+    }, 1000)
+  }
+
+  console.log(loading)
+
   useLayoutEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
-            <PressableOpacity
-              onPress={() => props!.navigation.navigate('ShoppingList')}
-            >
-              <Text>Lista</Text>
-            </PressableOpacity>
+        <PressableOpacity
+          onPress={() => props!.navigation.navigate('ShoppingList')}
+        >
+          <Lottie
+            style={{ width: 40, height: 40, justifyContent: 'center', alignItems: 'center' }}
+            ref={animationRef}
+            source={require('../assets/lottie/cart-icon-added.json')}
+            loop={false}
+          />
+        </PressableOpacity>
       )
     })
   }, [props.navigation])

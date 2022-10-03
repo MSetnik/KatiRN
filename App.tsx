@@ -16,10 +16,10 @@ export default function App () {
     <Provider store={globalStore}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="SpecialOffer" component={SpecialOffer} />
+          <Stack.Screen name="Home" component={Home} options={{ title: 'Ponuda' }}/>
+          <Stack.Screen name="SpecialOffer" component={SpecialOffer} options={{ title: 'Posebna ponuda' }} />
           <Stack.Screen name="CatalogView" component={CatalogView} />
-          <Stack.Screen name="ShoppingList" component={ShoppingList} options={{ presentation: 'modal' }} />
+          <Stack.Screen name="ShoppingList" component={ShoppingList} options={{ presentation: 'modal', title: 'Shopping lista' }} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

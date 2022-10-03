@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Image, Text, View } from 'react-native'
 import { Colors, SharedStyles, Typography } from '../../style'
 import CategoryPill from '../atoms/category-pill'
@@ -6,8 +6,10 @@ import PressableOpacity from '../atoms/PressableOpacity'
 
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { useDispatch, useSelector } from 'react-redux'
-import { addToList } from '../../store/shopping-list-slice'
+import { addToList, setLoading } from '../../store/shopping-list-slice'
 import { IProduct, IShoppingListItem } from '../../interfaces/endpoints'
+
+import Lottie from 'lottie-react-native'
 
 interface Props {
   itemId: string
@@ -21,17 +23,24 @@ interface Props {
   itemFullPriceEur: any;
   storeId: string,
   storeLogoUrl: string | undefined;
+  startAt: string,
+  endAt: string
 }
 
 const ItemCard: React.FC<Props> = props => {
   const dispatch = useDispatch()
+
+  const [animPlaying, setAnimPlaying] = useState<boolean>(false)
+  const animationRef = useRef<Lottie>(null)
 
   const product : IShoppingListItem = {
     id: props.itemId,
     name: props.itemName,
     fullPrice: props.itemFullPrice,
     discountedPrice: props.itemDiscountedPrice,
-    storeId: props.storeId
+    storeId: props.storeId,
+    startAt: props.startAt,
+    endAt: props.endAt
   }
 
   return (
@@ -51,7 +60,6 @@ const ItemCard: React.FC<Props> = props => {
         style={{
           width: '90%',
           aspectRatio: 4 / 3,
-          // backgroundColor: Colors.themeColor().backgroundDark,
           alignSelf: 'center',
           borderRadius: Typography.FONT_SIZE_TITLE_MD / 4
         }}
@@ -134,12 +142,21 @@ const ItemCard: React.FC<Props> = props => {
               justifyContent: 'flex-end'
             }}>
             <PressableOpacity onPress={() => {
+              setAnimPlaying(true)
+              animationRef.current?.play(30, 180)
               dispatch(addToList(product))
-            }} style={{}} isDisabled={false}>
-              <Icon
-                name="add-shopping-cart"
-                size={Typography.FONT_SIZE_TITLE_MD}
-                color={Colors.themeColor().primary}
+              dispatch(setLoading(true))
+              setTimeout(() => {
+                animationRef.current?.reset()
+                setAnimPlaying(false)
+                dispatch(setLoading(false))
+              }, 2500)
+            }} style={{ }} isDisabled={animPlaying}>
+              <Lottie
+                style={{ width: 30, height: 30, justifyContent: 'center', alignItems: 'center' }}
+                ref={animationRef}
+                source={require('../../assets/lottie/item-card-added.json')}
+                loop={false}
               />
             </PressableOpacity>
           </View>

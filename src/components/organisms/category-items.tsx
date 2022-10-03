@@ -3,6 +3,7 @@ import React, { useCallback, useEffect } from 'react'
 import { View, Text, ScrollView, FlatList } from 'react-native'
 import { Double } from 'react-native/Libraries/Types/CodegenTypes'
 import { useSelector } from 'react-redux'
+import { calculatePercentage } from '../../helpers'
 import { ICategory, IProduct, IStores } from '../../interfaces/endpoints'
 import { Colors, Typography } from '../../style'
 import PressableOpacity from '../atoms/PressableOpacity'
@@ -45,12 +46,6 @@ const CategoryItems : React.FC<Props> = (props) => {
       getStoreImg(products[0].storeId)
     }
   }, [products])
-
-  const calculatePercentage = (discountedPrice: number, fullPrice: number) : string => {
-    const percent = (100 - (fullPrice * 100) / discountedPrice)
-
-    return percent.toFixed(0)
-  }
 
   const checkIfCategoryHasItems = (index: number) => {
     const categoriesWithProductsHelper: ICategory[] = []
@@ -146,6 +141,8 @@ const CategoryItems : React.FC<Props> = (props) => {
                   itemDiscountedPriceEur={(item.discountedPrice / 7.53450).toFixed(2)}
                   itemFullPriceEur={(item.fullPrice / 7.53450).toFixed(2)}
                   storeLogoUrl={getStoreImg(item.storeId)}
+                  startAt={item.startAt}
+                  endAt={item.endAt}
                 />
               }
             }}
@@ -178,6 +175,8 @@ const CategoryItems : React.FC<Props> = (props) => {
                       itemDiscountedPriceEur={(item.discountedPrice / 7.53450).toFixed(2)}
                       itemFullPriceEur={(item.fullPrice / 7.53450).toFixed(2)}
                       storeLogoUrl={getStoreImg(item.storeId)}
+                      startAt={item.startAt}
+                      endAt={item.endAt}
                     />
                   } else {
                     return null

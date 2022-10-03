@@ -37,4 +37,6 @@ export interface IShoppingListItem {
     name: string
     fullPrice: Double,
     discountedPrice: Double,
+    startAt: string,
+    endAt: string
 }
