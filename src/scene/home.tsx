@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, ActivityIndicator } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { useDispatch, useSelector } from 'react-redux'
 import PressableOpacity from '../components/atoms/PressableOpacity'
@@ -28,12 +28,25 @@ const Home: React.FC<Props> = (props: any) => {
   const { loading } = useSelector((state: any) => state.shoppingList)
 
   const animationRef = useRef<Lottie>(null)
+  const [fetchingData, setFetchingData] = useState<boolean>(false)
 
   useEffect(() => {
-    dispatch(fetchCategories())
-    dispatch(fetchStores())
-    dispatch(fetchAllProducts())
-    dispatch(fetchCatalogs())
+    const fetchData = async () => {
+      setFetchingData(true)
+      Promise.all([
+        dispatch(fetchCategories()),
+        dispatch(fetchStores()),
+        dispatch(fetchAllProducts()),
+        dispatch(fetchCatalogs())])
+        .then((resp) => {
+          setFetchingData(false)
+        })
+        .catch((e) => {
+          setFetchingData(false)
+        })
+    }
+
+    fetchData()
   }, [])
 
   if (loading) {
@@ -41,8 +54,6 @@ const Home: React.FC<Props> = (props: any) => {
       animationRef.current?.play()
     }, 1000)
   }
-
-  console.log(loading)
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
@@ -55,11 +66,20 @@ const Home: React.FC<Props> = (props: any) => {
             ref={animationRef}
             source={require('../assets/lottie/cart-icon-added.json')}
             loop={false}
+            speed={1.5}
           />
         </PressableOpacity>
       )
     })
   }, [props.navigation])
+
+  if (fetchingData) {
+    return (
+      <View style={{ flex: 1, backgroundColor: Colors.themeColor().background, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size='large' color={Colors.themeColor().primary} />
+      </View>
+    )
+  }
 
   return (
     <View

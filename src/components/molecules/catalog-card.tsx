@@ -31,10 +31,14 @@ const CatalogCard: React.FC<Props> = ({ storeName, storeLogo, catalogDate, style
             <Text style={{
               fontSize: Typography.FONT_SIZE_NORMAL,
               fontWeight: Typography.FONT_WEIGHT_NORMAL,
-              marginBottom: Typography.FONT_SIZE_NORMAL / 4
+              marginBottom: Typography.FONT_SIZE_NORMAL / 4,
+              color: Colors.themeColor().textPrimary
             }}>{storeName}</Text>
 
-            <Text style={{ fontSize: Typography.FONT_SIZE_SMALL }}>{catalogDate}</Text>
+            <Text style={{
+              fontSize: Typography.FONT_SIZE_SMALL,
+              color: Colors.themeColor().textSecondary
+            }}>{catalogDate}</Text>
         </View>
     </PressableOpacity>
   )

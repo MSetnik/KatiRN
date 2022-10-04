@@ -4,7 +4,7 @@ import { Pressable } from 'react-native'
 interface Props {
     style?: object;
     children: React.ReactNode,
-    onPress: (params: any) => void | any;
+    onPress: ((params: any) => void | any) | undefined ;
     isDisabled?: boolean
 }
 

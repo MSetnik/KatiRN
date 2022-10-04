@@ -1,11 +1,10 @@
 /* eslint-disable array-callback-return */
 import React, { useCallback, useEffect } from 'react'
-import { View, Text, ScrollView, FlatList } from 'react-native'
-import { Double } from 'react-native/Libraries/Types/CodegenTypes'
+import { View, Text, FlatList } from 'react-native'
 import { useSelector } from 'react-redux'
 import { calculatePercentage } from '../../helpers'
 import { ICategory, IProduct, IStores } from '../../interfaces/endpoints'
-import { Colors, Typography } from '../../style'
+import { Colors, SharedStyles, Typography } from '../../style'
 import PressableOpacity from '../atoms/PressableOpacity'
 import ItemCard from '../molecules/item-card'
 
@@ -14,9 +13,9 @@ interface Props {
     categoryTitle: string,
     showButton: boolean,
     isHorizontal?: boolean,
-    onPress?: () => {},
+    onPress?: (params: any) => any | undefined,
     setSelectedCategory?: any,
-    storeId?: string
+    storeId?: string,
 }
 
 const CategoryItems : React.FC<Props> = (props) => {
@@ -72,7 +71,7 @@ const CategoryItems : React.FC<Props> = (props) => {
     // itemVisiblePercentThreshold: 50
   }
 
-  const onViewableItemsChanged = useCallback<any>(({ viewableItems }) => {
+  const onViewableItemsChanged = useCallback<any>(({ viewableItems } : any) => {
   // do something with viewableItems here. It’s a list of items in the viewport.
     if (viewableItems.length !== 0 && props.setSelectedCategory !== undefined) {
       // if(viewableItems[viewableItems.length - 1].item.categoryId)
@@ -94,7 +93,8 @@ const CategoryItems : React.FC<Props> = (props) => {
           style={{
             marginLeft: Typography.FONT_SIZE_TITLE_MD,
             marginTop: Typography.FONT_SIZE_TITLE_MD / 2,
-            fontWeight: Typography.FONT_WEIGHT_MEDIUM
+            fontWeight: Typography.FONT_WEIGHT_MEDIUM,
+            color: Colors.themeColor().textPrimary
           }}>
           {props.categoryTitle}
         </Text>
@@ -105,30 +105,15 @@ const CategoryItems : React.FC<Props> = (props) => {
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
-            data={products}
+            data={products.filter((p: IProduct) => p.categoryId === '1')}
             contentContainerStyle={{
-              paddingLeft: Typography.FONT_SIZE_TITLE_MD / 2
+              paddingLeft: 20
             }}
             style={{
               paddingBottom: Typography.FONT_SIZE_NORMAL / 2
             }}
-            renderItem={({ item }) => {
-              // if (item.categoryId === props.categoryId) {
-              //   return <ItemCard
-              //     imgUrl={item.imgUrl}
-              //     itemName={item.name}
-              //     itemDescription={item.description}
-              //     itemDiscountPercent={((parseFloat(item.discountedPrice) / parseFloat(item.fullPrice)) * 100).toFixed(0)}
-              //     itemDiscountedPrice={item.discountedPrice}
-              //     itemFullPrice={item.fullPrice}
-              //     itemDiscountedPriceEur={(parseFloat(item.discountedPrice) / 7.53450).toFixed(2)}
-              //     itemFullPriceEur={(parseFloat(item.fullPrice) / 7.53450).toFixed(2)}
-              //     storeLogoUrl={getStoreImg(item.storeId)}
-              //   />
-              // } else {
-              //   return null
-              // }
-              if (item.categoryId === '1' && dateNow >= item.startAt && dateNow <= item.endAt) {
+            renderItem={({ item, index }) : any => {
+              if (dateNow >= item.startAt && dateNow <= item.endAt && index < 6) {
                 return <ItemCard
                   storeId={item.storeId}
                   itemId={item.id}
@@ -143,7 +128,56 @@ const CategoryItems : React.FC<Props> = (props) => {
                   storeLogoUrl={getStoreImg(item.storeId)}
                   startAt={item.startAt}
                   endAt={item.endAt}
+                  style={{
+                    width: 150
+                  }}
                 />
+              } else if (index === 6) {
+                return (
+                  <>
+
+                    <ItemCard
+                      storeId={item.storeId}
+                      itemId={item.id}
+                      imgUrl={item.imgUrl}
+                      itemName={item.name}
+                      itemDescription={item.description}
+                      itemDiscountPercent={calculatePercentage(item.discountedPrice, item.fullPrice)}
+                      itemDiscountedPrice={item.discountedPrice}
+                      itemFullPrice={item.fullPrice}
+                      itemDiscountedPriceEur={(item.discountedPrice / 7.53450).toFixed(2)}
+                      itemFullPriceEur={(item.fullPrice / 7.53450).toFixed(2)}
+                      storeLogoUrl={getStoreImg(item.storeId)}
+                      startAt={item.startAt}
+                      endAt={item.endAt}
+                      style={{
+                        width: 150
+                      }}
+                    />
+
+                    <PressableOpacity style={[
+                      SharedStyles.shadow.elevation5,
+                      {
+                        width: 150,
+                        aspectRatio: 1 / 2,
+                        backgroundColor: Colors.themeColor().primaryLight,
+                        margin: Typography.FONT_SIZE_TITLE_MD / 2,
+                        borderRadius: Typography.FONT_SIZE_TITLE_MD / 2,
+                        // paddingTop: Typography.FONT_SIZE_TITLE_MD / 2,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        paddingHorizontal: 20
+                      }
+                    ]}
+                    onPress={props.onPress}
+                    >
+                        <Text style={{ color: Colors.themeColor().textPrimary, textAlign: 'center' }}>
+                          Prikaži sve proizvode
+                        </Text>
+                    </PressableOpacity>
+
+                  </>
+                )
               }
             }}
             />
@@ -157,7 +191,8 @@ const CategoryItems : React.FC<Props> = (props) => {
                 }}
                 style={{
                   alignSelf: 'auto',
-                  marginLeft: '6%'
+                  alignItems: products.filter((p: IProduct) => p.categoryId === props.categoryId).length === 1 ? 'baseline' : 'center',
+                  marginLeft: products.filter((p: IProduct) => p.categoryId === props.categoryId).length === 1 ? '5%' : 0
                 }}
                 onViewableItemsChanged={ onViewableItemsChanged }
                 viewabilityConfig={ viewabilityConfig }

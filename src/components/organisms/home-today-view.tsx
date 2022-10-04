@@ -75,7 +75,8 @@ const HomeTodayView = (props: any) => {
                   categoryTitle='Posebna ponuda'
                   showButton={true}
                   isHorizontal={true}
-                  onPress={() => props.navigation.navigate('SpecialOffer')} />
+                  onPress={() => props.navigation.navigate('SpecialOffer')}
+                  />
 
                 <CategoryItems key={index} categoryTitle={item.name} categoryId={item.id} showButton={false} setSelectedCategory={setSelectedIndex}/>
 

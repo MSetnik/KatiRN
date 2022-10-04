@@ -1,13 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Image, Text, View } from 'react-native'
+import React, { useRef, useState } from 'react'
+import { Dimensions, Image, Text, View } from 'react-native'
 import { Colors, SharedStyles, Typography } from '../../style'
 import CategoryPill from '../atoms/category-pill'
 import PressableOpacity from '../atoms/PressableOpacity'
 
-import Icon from 'react-native-vector-icons/MaterialIcons'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { addToList, setLoading } from '../../store/shopping-list-slice'
-import { IProduct, IShoppingListItem } from '../../interfaces/endpoints'
+import { IShoppingListItem } from '../../interfaces/endpoints'
 
 import Lottie from 'lottie-react-native'
 
@@ -24,7 +23,8 @@ interface Props {
   storeId: string,
   storeLogoUrl: string | undefined;
   startAt: string,
-  endAt: string
+  endAt: string,
+  style?: object
 }
 
 const ItemCard: React.FC<Props> = props => {
@@ -48,13 +48,13 @@ const ItemCard: React.FC<Props> = props => {
       style={[
         SharedStyles.shadow.elevation5,
         {
-          width: 150,
+          width: Dimensions.get('window').width * 0.4,
           aspectRatio: 1 / 2,
           backgroundColor: Colors.themeColor().cardBackground,
           margin: Typography.FONT_SIZE_TITLE_MD / 2,
           borderRadius: Typography.FONT_SIZE_TITLE_MD / 2,
           paddingTop: Typography.FONT_SIZE_TITLE_MD / 2
-        }
+        }, props.style
       ]}>
       <View
         style={{
@@ -73,8 +73,11 @@ const ItemCard: React.FC<Props> = props => {
           marginTop: Typography.FONT_SIZE_TITLE_MD,
           margin: Typography.FONT_SIZE_TITLE_MD / 2,
           overflow: 'hidden'
+
         }}>
-        <Text>{props.itemName}</Text>
+        <Text style={{
+          color: Colors.themeColor().textPrimary
+        }}>{props.itemName}</Text>
 
         <Text
           style={{
@@ -109,7 +112,10 @@ const ItemCard: React.FC<Props> = props => {
               }}
             />
 
-            <Text style={{ marginTop: Typography.FONT_SIZE_NORMAL / 4 }}>
+            <Text style={{
+              marginTop: Typography.FONT_SIZE_NORMAL / 4,
+              color: Colors.themeColor().textPrimary
+            }}>
               {props.itemDiscountedPrice + ' kn'}
             </Text>
             <Text
@@ -121,7 +127,10 @@ const ItemCard: React.FC<Props> = props => {
               }}>
               {props.itemFullPrice + ' kn'}
             </Text>
-            <Text style={{ marginTop: Typography.FONT_SIZE_NORMAL / 4 }}>
+            <Text style={{
+              marginTop: Typography.FONT_SIZE_NORMAL / 4,
+              color: Colors.themeColor().textPrimary
+            }}>
               {props.itemDiscountedPriceEur + '€'}
             </Text>
             <Text
@@ -150,13 +159,15 @@ const ItemCard: React.FC<Props> = props => {
                 animationRef.current?.reset()
                 setAnimPlaying(false)
                 dispatch(setLoading(false))
-              }, 2500)
+              }, 1300)
             }} style={{ }} isDisabled={animPlaying}>
               <Lottie
-                style={{ width: 30, height: 30, justifyContent: 'center', alignItems: 'center' }}
+                style={{ width: Typography.FONT_SIZE_TITLE_MD * 1.5, height: Typography.FONT_SIZE_TITLE_MD * 1.5, justifyContent: 'center', alignItems: 'center' }}
                 ref={animationRef}
                 source={require('../../assets/lottie/item-card-added.json')}
                 loop={false}
+                speed={2}
+
               />
             </PressableOpacity>
           </View>

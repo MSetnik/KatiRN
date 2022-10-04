@@ -56,7 +56,10 @@ const ShoppingListItem: React.FC<Props> = ({ itemId, itemsList, storeId, storeIm
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: Typography.FONT_SIZE_TITLE_MD / 2, justifyContent: 'space-between' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Image style={{ height: Typography.FONT_SIZE_TITLE_MD * 2.5, aspectRatio: 1 / 1, resizeMode: 'contain' }} source={{ uri: storeImg }} />
-                <Text style={{ marginLeft: Typography.FONT_SIZE_TITLE_MD }}>{storeName}</Text>
+                <Text style={{
+                  marginLeft: Typography.FONT_SIZE_TITLE_MD,
+                  color: Colors.themeColor().textPrimary
+                }}>{storeName}</Text>
             </View>
 
             <View style={{ flexDirection: 'row' }}>
@@ -108,34 +111,50 @@ const ShoppingListItem: React.FC<Props> = ({ itemId, itemsList, storeId, storeIm
                 marginBottom: 4
               }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'baseline' }}>
-                    <Text style={{ }}>- {item.name}</Text>
+                    <Text style={{
+                      color: Colors.themeColor().textPrimary
+                    }}>- {item.name}</Text>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'baseline' }}>
                       <Text style={{
                         textDecorationLine: 'line-through',
                         marginRight: Typography.FONT_SIZE_TITLE_MD / 2,
-                        fontSize: FONT_SIZE_TITLE_LG / 2
+                        fontSize: FONT_SIZE_TITLE_LG / 2,
+                        color: Colors.themeColor().textSecondary
                       }}>{item.fullPrice !== 0 ? `${item.fullPrice} kn` : null}</Text>
-                      <Text style={{ marginRight: 10 }}>{item.discountedPrice !== 0 ? `${item.discountedPrice} kn` : null}</Text>
-                    </View>
-                    {
-                        isEditing && <Button onPress={() => dispatch(removeFromList(item.id))}
-                        color={Colors.themeColor().btnError}
-                        title="-"
-                        />
-                    }
-
+                      <Text style={{
+                        marginRight: Typography.FONT_SIZE_TITLE_MD / 2,
+                        color: Colors.themeColor().textPrimary
+                      }}>{item.discountedPrice !== 0 ? `${item.discountedPrice} kn` : null}</Text>
                     </View>
 
                 </View>
+
+                {
+                  isEditing && <PressableOpacity onPress={() => dispatch(removeFromList(item.id))}
+                  style={{ marginLeft: -5, width: 20, height: 20, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}
+                  >
+                    <Text style={{ color: Colors.themeColor().btnError, fontWeight: 'bold' }}>-</Text>
+                  </PressableOpacity>
+                }
+
+              </View>
             }}
         />
 
           {
             isEditing &&
-            <View style={{ flex: 1, flexDirection: 'row', marginHorizontal: Typography.FONT_SIZE_TITLE_MD / 2 }}>
-              <Text>- </Text>
+            <View style={{ flex: 1, flexDirection: 'row', marginHorizontal: Typography.FONT_SIZE_TITLE_MD / 2, alignItems: 'center' }}>
+              <Text style={{
+                color: Colors.themeColor().textSecondary
+              }}>- </Text>
 
-              <TextInput value={customItemName} onChangeText={(text) => setCustomItemName(text)} placeholder='Dodajte proizvoljni proizvod na popis'
+              <TextInput value={customItemName} onChangeText={(text) => setCustomItemName(text)}
+                placeholderTextColor={Colors.themeColor().textSecondary}
+                placeholder='Dodajte proizvoljni proizvod na popis'
+                style={{
+                  color: Colors.themeColor().textPrimary,
+                  flex: 1
+                }}
                 onEndEditing={() => {
                   if (customItemName !== '') {
                     dispatch(addToList(customItemObject))
@@ -148,7 +167,10 @@ const ShoppingListItem: React.FC<Props> = ({ itemId, itemsList, storeId, storeIm
           }
 
         <View style={{ marginTop: Typography.FONT_SIZE_TITLE_MD, marginHorizontal: Typography.FONT_SIZE_TITLE_MD / 2, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'baseline' }}>
-            <Text style={{ marginRight: Typography.FONT_SIZE_TITLE_MD / 2 }}>Ukupno:</Text>
+            <Text style={{
+              marginRight: Typography.FONT_SIZE_TITLE_MD / 2,
+              color: Colors.themeColor().textPrimary
+            }}>Ukupno:</Text>
 
             <CategoryPill
               text={calculatePercentage(itemsDiscountedlPriceTotal, itemsFullPriceTotal) + '%'}
@@ -163,8 +185,15 @@ const ShoppingListItem: React.FC<Props> = ({ itemId, itemsList, storeId, storeIm
                 color: Colors.themeColor().background
               }}
             />
-            <Text style={{ textDecorationLine: 'line-through', marginRight: Typography.FONT_SIZE_TITLE_MD / 2, fontSize: Typography.FONT_SIZE_TITLE_LG / 2 }}>{itemsFullPriceTotal.toFixed(2)} kn</Text>
-            <Text>{itemsDiscountedlPriceTotal.toFixed(2)} kn</Text>
+            <Text style={{
+              textDecorationLine: 'line-through',
+              color: Colors.themeColor().textSecondary,
+              marginRight: Typography.FONT_SIZE_TITLE_MD / 2,
+              fontSize: Typography.FONT_SIZE_TITLE_LG / 2
+            }}>{itemsFullPriceTotal.toFixed(2)} kn</Text>
+            <Text style={{
+              color: Colors.themeColor().textPrimary
+            }}>{itemsDiscountedlPriceTotal.toFixed(2)} kn</Text>
         </View>
     </View>
   )

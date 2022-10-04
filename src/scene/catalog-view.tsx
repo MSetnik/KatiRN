@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { FlatList, ScrollView, Text, View } from 'react-native'
+import { ActivityIndicator, FlatList, ScrollView, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import CategoryPill from '../components/atoms/category-pill'
 import CategoryItems from '../components/organisms/category-items'
@@ -19,6 +19,7 @@ const CatalogView: React.FC<Props> = ({ navigation, route }) => {
   const storeName = route.params.storeName
   const [productsFromCatalog, setProductsFromCatalog] = useState<IProduct[]>([])
   const [selectedIndex, setSelectedIndex] = useState<number>(0)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   // ref
   const productsListRef = useRef<FlatList>(null)
@@ -35,9 +36,16 @@ const CatalogView: React.FC<Props> = ({ navigation, route }) => {
   })
 
   useEffect(() => {
-    if (storeId !== undefined) {
-      dispatch(fetchStoreCatalog(storeId))
+    const fetchStoreCatalogs = async () => {
+      setIsLoading(true)
+      if (storeId !== undefined) {
+        await dispatch(fetchStoreCatalog(storeId))
+      }
     }
+
+    fetchStoreCatalogs().then(() => {
+      setIsLoading(false)
+    })
   }, [])
 
   useEffect(() => {
@@ -55,6 +63,14 @@ const CatalogView: React.FC<Props> = ({ navigation, route }) => {
     }
   }, [storeCatalog])
 
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, backgroundColor: Colors.themeColor().background, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size='large' color={Colors.themeColor().primary} />
+      </View>
+    )
+  }
+
   return (
    <View style={{
      flex: 1,
@@ -69,7 +85,7 @@ const CatalogView: React.FC<Props> = ({ navigation, route }) => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{
               paddingHorizontal: Typography.FONT_SIZE_TITLE_MD,
-              marginTop: 10
+              marginTop: Typography.FONT_SIZE_TITLE_MD / 2
             }}
             style={{
               flexGrow: 0,
@@ -109,8 +125,8 @@ const CatalogView: React.FC<Props> = ({ navigation, route }) => {
               return <CategoryItems key={index} categoryTitle={item.name} categoryId={item.id} showButton={false} storeId={storeId} setSelectedCategory={setSelectedIndex} />
             }}/>
         </>)
-          : <View>
-          <Text>Nema proizvoda u katalogu</Text>
+          : <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={{ color: Colors.themeColor().textPrimary }}>Nema proizvoda u katalogu</Text>
         </View>
 }
    </View>

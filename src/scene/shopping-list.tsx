@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useEffect } from 'react'
 import { FlatList, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -20,13 +21,16 @@ const ShoppingList: React.FC<Props> = ({ navigation }) => {
   if (shoppingList.length === 0) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.themeColor().background }}>
-        <Text>Shopping lista je prazna.</Text>
+        <Text style={{
+          color: Colors.themeColor().textPrimary
+        }}>Shopping lista je prazna.</Text>
       </View>
     )
   }
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: Colors.themeColor().background }} behavior='padding' keyboardVerticalOffset={120}>
+    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: Colors.themeColor().background }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 120 : 140}>
 
       <FlatList
           style={{
@@ -51,12 +55,16 @@ const ShoppingList: React.FC<Props> = ({ navigation }) => {
                 storeName={item.storeName}
                 />
 
-                 <View style={{ marginHorizontal: Typography.FONT_SIZE_TITLE_MD * 2, marginBottom: Typography.FONT_SIZE_TITLE_MD * 2.5 }}>
+                 <View style={{
+                   marginHorizontal: Typography.FONT_SIZE_TITLE_MD * 2,
+                   marginBottom: Typography.FONT_SIZE_TITLE_MD * 2.5,
+                   marginTop: Typography.FONT_SIZE_TITLE_MD * 2
+                 }}>
                   <Text style={{ fontSize: Typography.FONT_SIZE_TITLE_LG / 2, color: Colors.themeColor().textSecondary, marginBottom: Typography.FONT_SIZE_NORMAL / 4 }}>
                     info:
                   </Text>
                   <Text style={{ fontSize: Typography.FONT_SIZE_TITLE_LG / 2, color: Colors.themeColor().textSecondary }}>
-                    Na listu mozete dodati proizvoljne biljeske kako bi si olaksali kupovinu
+                    Pritiskom na "uredi" na listu možete dodati proizvoljne bilješke kako bi si olakšali kupovinu
                   </Text>
                 </View>
               </Pressable>
