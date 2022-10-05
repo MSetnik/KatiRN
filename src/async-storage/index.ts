@@ -1,12 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { IShoppingListItem } from '../interfaces/endpoints'
+import { IShoppingListItem, IStores } from '../interfaces/endpoints'
 
-const SHOPPING_LIST_PRODUCTS = '@shopping_list_products'
+const SHOPPING_LIST_PRODUCTS = '@shopping_list_products1'
+const STORES_ASYNC = '@stores_async'
 
 export const storeShoppingList = async (shoppingList: IShoppingListItem[]) => {
   try {
+    console.log('da')
+    console.log(shoppingList)
     const jsonValue = JSON.stringify(shoppingList)
-
     await AsyncStorage.setItem(SHOPPING_LIST_PRODUCTS, jsonValue)
   } catch (e) {
     // saving error
@@ -17,6 +19,31 @@ export const storeShoppingList = async (shoppingList: IShoppingListItem[]) => {
 export const getShoppingList = async () => {
   try {
     const jsonValue = await AsyncStorage.getItem(SHOPPING_LIST_PRODUCTS)
+    return jsonValue != null ? JSON.parse(jsonValue) : null
+  } catch (e) {
+    // error reading value
+    console.log(e)
+  }
+}
+
+export const saveStores = async (stores: IStores[]) => {
+  try {
+    const storesData = await getStores()
+
+    if (JSON.stringify(storesData) !== JSON.stringify(stores)) {
+      const jsonValue = JSON.stringify(stores)
+      await AsyncStorage.setItem(STORES_ASYNC, jsonValue)
+    }
+  } catch (e) {
+    // saving error
+    console.log(e)
+  }
+}
+
+export const getStores = async () => {
+  try {
+    const jsonValue = await AsyncStorage.getItem(STORES_ASYNC)
+
     return jsonValue != null ? JSON.parse(jsonValue) : null
   } catch (e) {
     // error reading value

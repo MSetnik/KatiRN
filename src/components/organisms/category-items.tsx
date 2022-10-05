@@ -25,12 +25,15 @@ const CategoryItems : React.FC<Props> = (props) => {
 
   const dateNow = new Date().getTime().toString().substring(0, 10)
 
-  const getStoreImg = (storeId: string) => {
+  const getStoreData = (storeId: string) => {
     const imgArray = stores.map((store: IStores) => {
-      let img: any
+      let storeData : object
       if (store.id === storeId) {
-        img = store.imgUrl
-        return img
+        storeData = {
+          img: store.imgUrl,
+          name: store.name
+        }
+        return storeData
       }
 
       return null
@@ -42,7 +45,7 @@ const CategoryItems : React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (products.length !== 0) {
-      getStoreImg(products[0].storeId)
+      getStoreData(products[0].storeId)
     }
   }, [products])
 
@@ -125,7 +128,8 @@ const CategoryItems : React.FC<Props> = (props) => {
                   itemFullPrice={item.fullPrice}
                   itemDiscountedPriceEur={(item.discountedPrice / 7.53450).toFixed(2)}
                   itemFullPriceEur={(item.fullPrice / 7.53450).toFixed(2)}
-                  storeLogoUrl={getStoreImg(item.storeId)}
+                  storeLogoUrl={getStoreData(item.storeId).img}
+                  storeName={getStoreData(item.storeId).name}
                   startAt={item.startAt}
                   endAt={item.endAt}
                   style={{
@@ -147,9 +151,10 @@ const CategoryItems : React.FC<Props> = (props) => {
                       itemFullPrice={item.fullPrice}
                       itemDiscountedPriceEur={(item.discountedPrice / 7.53450).toFixed(2)}
                       itemFullPriceEur={(item.fullPrice / 7.53450).toFixed(2)}
-                      storeLogoUrl={getStoreImg(item.storeId)}
+                      storeLogoUrl={getStoreData(item.storeId).img}
                       startAt={item.startAt}
                       endAt={item.endAt}
+                      storeName={getStoreData(item.storeId).name}
                       style={{
                         width: 150
                       }}
@@ -209,9 +214,11 @@ const CategoryItems : React.FC<Props> = (props) => {
                       itemFullPrice={item.fullPrice}
                       itemDiscountedPriceEur={(item.discountedPrice / 7.53450).toFixed(2)}
                       itemFullPriceEur={(item.fullPrice / 7.53450).toFixed(2)}
-                      storeLogoUrl={getStoreImg(item.storeId)}
+                      storeLogoUrl={getStoreData(item.storeId).img}
                       startAt={item.startAt}
                       endAt={item.endAt}
+                      storeName={getStoreData(item.storeId).name}
+
                     />
                   } else {
                     return null

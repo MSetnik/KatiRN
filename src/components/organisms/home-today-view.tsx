@@ -12,7 +12,6 @@ import { checkIfCategoryHasItemsHelper } from '../../helpers'
 import { storeShoppingList } from '../../async-storage'
 
 const HomeTodayView = (props: any) => {
-  // const dispatch = useDispatch();
   const { categories } = useSelector((state: any) => state.categories)
   const { products } = useSelector((state: any) => state.products)
   const { shoppingList } = useSelector((state: any) => state.shoppingList)
@@ -23,7 +22,6 @@ const HomeTodayView = (props: any) => {
   const productsListRef = useRef<FlatList>(null)
 
   useEffect(() => {
-    // checkIfCategoryHasItems()
     setCategoriesWithProducts(checkIfCategoryHasItemsHelper(categories, products))
   }, [categories, products])
 

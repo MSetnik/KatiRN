@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Dimensions, Image, Text, View } from 'react-native'
+import { ActivityIndicator, Dimensions, Image, Text, View } from 'react-native'
 import { Colors, SharedStyles, Typography } from '../../style'
 import CategoryPill from '../atoms/category-pill'
 import PressableOpacity from '../atoms/PressableOpacity'
@@ -25,7 +25,8 @@ interface Props {
   storeLogoUrl: string | undefined;
   startAt: string,
   endAt: string,
-  style?: object
+  style?: object,
+  storeName: string
 }
 
 const ItemCard: React.FC<Props> = props => {
@@ -34,6 +35,8 @@ const ItemCard: React.FC<Props> = props => {
   const { shoppingList } = useSelector((state: any) => state.shoppingList)
 
   const [animPlaying, setAnimPlaying] = useState<boolean>(false)
+  const [itemImgLoading, setItemImgLoading] = useState<boolean>(false)
+  const [storeImgLoading, setStoreImgLoading] = useState<boolean>(false)
   const animationRef = useRef<Lottie>(null)
 
   const product : IShoppingListItem = {
@@ -45,10 +48,6 @@ const ItemCard: React.FC<Props> = props => {
     startAt: props.startAt,
     endAt: props.endAt
   }
-
-  useEffect(() => {
-    dispatch(storeListToAsync(shoppingList))
-  }, [shoppingList])
 
   return (
     <View
@@ -68,10 +67,19 @@ const ItemCard: React.FC<Props> = props => {
           width: '90%',
           aspectRatio: 4 / 3,
           alignSelf: 'center',
-          borderRadius: Typography.FONT_SIZE_TITLE_MD / 4
+          borderRadius: Typography.FONT_SIZE_TITLE_MD / 4,
+          backgroundColor: !itemImgLoading ? Colors.themeColor().background : Colors.themeColor().textSecondary,
+          opacity: !itemImgLoading ? 1 : 0.2
         }}
       >
-        <Image style={{ flex: 1, resizeMode: 'contain' }} source={{ uri: props.imgUrl }} />
+        <Image
+          onLoadStart={() => setItemImgLoading(true)}
+          onLoadEnd={() => setItemImgLoading(false)}
+          style={{ flex: 1, resizeMode: 'contain', opacity: !itemImgLoading ? 1 : 0 }}
+          source={{ uri: props.imgUrl }}
+          loadingIndicatorSource={require('../../assets/img-placeholder.png')}
+          />
+
       </View>
 
       <View
@@ -162,6 +170,7 @@ const ItemCard: React.FC<Props> = props => {
               animationRef.current?.play(30, 180)
               dispatch(addToList(product))
               dispatch(setLoading(true))
+
               setTimeout(() => {
                 animationRef.current?.reset()
                 setAnimPlaying(false)
@@ -194,7 +203,23 @@ const ItemCard: React.FC<Props> = props => {
             {
               props.storeLogoUrl !== undefined &&
               (
-                <Image style={{ flex: 1, aspectRatio: 1 / 1, resizeMode: 'contain' }} source={{ uri: props.storeLogoUrl }} />
+                <View style={{
+                  flex: 1,
+                  aspectRatio: 1 / 1,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}>
+                  <Image onLoadStart={() => setStoreImgLoading(true)} onLoadEnd={() => setStoreImgLoading(false)} style={{
+                    flex: 1,
+                    aspectRatio: 1 / 1,
+                    resizeMode: 'contain'
+                  }} source={{ uri: props.storeLogoUrl }} />
+
+                  {
+                    storeImgLoading &&
+                    <Text style={{ color: Colors.themeColor().textPrimary, position: 'absolute' }}>{props.storeName}</Text>
+                  }
+                </View>
               )
             }
           </View>

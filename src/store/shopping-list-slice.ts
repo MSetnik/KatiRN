@@ -1,14 +1,18 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { useSelector } from 'react-redux'
 import { storeShoppingList } from '../async-storage'
 import { IProduct, IShoppingListItem } from '../interfaces/endpoints'
 
 const shoppingListSlice = createSlice({
   name: 'shoppingList',
   initialState: {
-    shoppingList: <IShoppingListItem[]>[],
-    loading: <boolean>false
+    shoppingList: <IShoppingListItem[]> [],
+    loading: <boolean> false
   },
   reducers: {
+    setShoppingList (state, action: PayloadAction<IShoppingListItem[]>) {
+      state.shoppingList = action.payload
+    },
     addToList (state, action: PayloadAction<IShoppingListItem>) {
       state.loading = true
       const helperObject = {
@@ -16,7 +20,6 @@ const shoppingListSlice = createSlice({
         id: `${action.payload.id}${Math.random().toFixed(20)}`
       }
       state.shoppingList.push(helperObject)
-      // storeShoppingList(state.shoppingList)
     },
     removeFromList  (state, action: PayloadAction<string>) {
       state.shoppingList.forEach((item: IShoppingListItem, index: number) => {
@@ -24,9 +27,6 @@ const shoppingListSlice = createSlice({
           state.shoppingList.splice(index, 1)
         }
       })
-    },
-    loadFromAsync (state, action: PayloadAction<IShoppingListItem[]>) {
-      state.shoppingList = action.payload
     },
     setLoading  (state, action: PayloadAction<boolean>) {
       state.loading = action.payload
@@ -50,5 +50,5 @@ export const storeListToAsync: any = createAsyncThunk('shoppingList/storeToAsync
   return (response as unknown)
 })
 
-export const { addToList, removeFromList, setLoading, loadFromAsync } = shoppingListSlice.actions
+export const { addToList, removeFromList, setLoading, loadFromAsync, setShoppingList } = shoppingListSlice.actions
 export default shoppingListSlice.reducer

@@ -14,8 +14,8 @@ import { fetchStores, setStores } from '../store/store-slice'
 import { Colors, Typography } from '../style'
 import HomeCatalogs from './home-catalogs'
 import Lottie from 'lottie-react-native'
-import { getShoppingList, storeShoppingList } from '../async-storage'
-import { addToList, loadFromAsync } from '../store/shopping-list-slice'
+import { getShoppingList, getStores, saveStores, storeShoppingList } from '../async-storage'
+import { addToList, loadFromAsync, setShoppingList } from '../store/shopping-list-slice'
 
 interface Props {
   navigation: any
@@ -39,10 +39,18 @@ const Home: React.FC<Props> = (props: any) => {
         dispatch(fetchStores()),
         dispatch(fetchAllProducts()),
         dispatch(fetchCatalogs()),
-        getShoppingList()
+        getShoppingList(),
+        getStores()
       ])
-        .then((resp) => {
-          dispatch(loadFromAsync(resp[4]))
+        .then(async (resp) => {
+          if (resp[1].payload.length !== 0) {
+            saveStores(resp[1].payload)
+          }
+
+          if (shoppingList.length === 0) {
+            dispatch(setShoppingList(await getShoppingList()))
+          }
+
           setFetchingData(false)
 
           if (resp[4].length !== 0) {
@@ -72,10 +80,18 @@ const Home: React.FC<Props> = (props: any) => {
     fetchData()
   }, [])
 
+  useEffect(() => {
+    if (shoppingList.length !== 0) {
+      storeShoppingList(shoppingList)
+    }
+  }, [shoppingList])
+
   if (loading) {
-    setTimeout(() => {
-      animationRef.current?.play()
-    }, 1000)
+    if (shoppingList.length !== 0) {
+      setTimeout(() => {
+        animationRef.current?.play()
+      }, 1000)
+    }
   }
 
   useLayoutEffect(() => {

@@ -1,9 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FlatList, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
+import { getStores } from '../async-storage'
 import ShoppingListItem from '../components/organisms/shopping-list-item'
 import { shoppingListToRender } from '../helpers'
+import { IShoppingListItem } from '../interfaces/endpoints'
 import { Colors, Typography } from '../style'
 
 interface Props {
@@ -14,11 +16,24 @@ const ShoppingList: React.FC<Props> = ({ navigation }) => {
   const { shoppingList } = useSelector((state: any) => state.shoppingList)
   const { stores } = useSelector((state: any) => state.stores)
 
+  const [dataToRender, setDataToRender] = useState<any[]>([])
+
   useEffect(() => {
-    shoppingListToRender(shoppingList, stores)
+    const getStoresFromAsync = async () => {
+      // if (shoppingList.length === 0) {
+      //   setDataToRender(shoppingListToRender(shoppingList, await getStores()))
+      // } else {
+      //   setDataToRender(shoppingListToRender(shoppingList, stores))
+      // }
+      setDataToRender(shoppingListToRender(shoppingList, await getStores()))
+    }
+
+    getStoresFromAsync()
   }, [])
 
-  if (shoppingList.length === 0) {
+  console.log(dataToRender)
+
+  if (dataToRender.length === 0) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.themeColor().background }}>
         <Text style={{
@@ -41,10 +56,10 @@ const ShoppingList: React.FC<Props> = ({ navigation }) => {
           contentContainerStyle={{
             paddingBottom: Typography.FONT_SIZE_TITLE_MD * 2
           }}
-          data={shoppingListToRender(shoppingList, stores)}
+          data={dataToRender}
 
           renderItem={({ item, index }) => {
-            if (index === shoppingListToRender(shoppingList, stores).length - 1) {
+            if (index === dataToRender.length - 1) {
               return <Pressable onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
               <ShoppingListItem
                 key={index}

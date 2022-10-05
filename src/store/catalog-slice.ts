@@ -25,7 +25,6 @@ const catalogSlice = createSlice({
     builder.addCase(fetchCatalogs.rejected, state => {
       state.loading = false
     })
-    //
     builder.addCase(fetchStoreCatalog.pending, state => {
       state.loading = true
     })
