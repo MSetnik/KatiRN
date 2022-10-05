@@ -1,6 +1,7 @@
 import { firestore } from './firebase-init'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import { ICatalog, ICategory, IProduct, IStores } from '../interfaces/endpoints'
+import * as fs from '@react-native-firebase/firestore'
 
 // Fetching store data
 export const getStoreData = async () => {
@@ -66,6 +67,7 @@ export const getAllCatalog = async () => {
     }
     return catalog
   })
+
   return lCatalogs
 }
 

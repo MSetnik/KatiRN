@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import { useDispatch, useSelector } from 'react-redux'
 import { calculatePercentage, shoppingListToRender } from '../../helpers'
 import { IProduct, IShoppingListItem } from '../../interfaces/endpoints'
-import { addToList, removeFromList } from '../../store/shopping-list-slice'
+import { addToList, removeFromList, storeListToAsync } from '../../store/shopping-list-slice'
 import { Colors, Typography } from '../../style'
 import { FONT_SIZE_TITLE_LG } from '../../style/typography'
 import CategoryPill from '../atoms/category-pill'
@@ -21,7 +21,6 @@ interface Props {
 
 const ShoppingListItem: React.FC<Props> = ({ itemId, itemsList, storeId, storeImg, storeName }) => {
   const { shoppingList } = useSelector((state: any) => state.shoppingList)
-  const { stores } = useSelector((state: any) => state.stores)
   const dispatch = useDispatch()
 
   const [itemsFullPriceTotal, setItemsFullPriceTotal] = useState<number>(0)
@@ -49,7 +48,14 @@ const ShoppingListItem: React.FC<Props> = ({ itemId, itemsList, storeId, storeIm
     getShoppingListItemsTotal()
   }, [])
 
-  console.log(customItemName)
+  useEffect(() => {
+    if (customItemName !== '') {
+      dispatch(addToList(customItemObject))
+      dispatch(storeListToAsync([...shoppingList, customItemObject]))
+
+      setCustomItemName('')
+    }
+  }, [!isEditing])
 
   return (
     <View style={{ flex: 1, paddingHorizontal: Typography.FONT_SIZE_TITLE_MD, paddingTop: Typography.FONT_SIZE_TITLE_MD }}>
@@ -101,7 +107,6 @@ const ShoppingListItem: React.FC<Props> = ({ itemId, itemsList, storeId, storeIm
             style={{ flex: 1 }}
             data={itemsList}
             renderItem={({ item, index }) => {
-              console.log(index)
               return <View key={index} style={{
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -130,7 +135,9 @@ const ShoppingListItem: React.FC<Props> = ({ itemId, itemsList, storeId, storeIm
                 </View>
 
                 {
-                  isEditing && <PressableOpacity onPress={() => dispatch(removeFromList(item.id))}
+                  isEditing && <PressableOpacity onPress={() => {
+                    dispatch(removeFromList(item.id))
+                  }}
                   style={{ marginLeft: -5, width: 20, height: 20, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}
                   >
                     <Text style={{ color: Colors.themeColor().btnError, fontWeight: 'bold' }}>-</Text>
@@ -158,6 +165,8 @@ const ShoppingListItem: React.FC<Props> = ({ itemId, itemsList, storeId, storeIm
                 onEndEditing={() => {
                   if (customItemName !== '') {
                     dispatch(addToList(customItemObject))
+                    dispatch(storeListToAsync([...shoppingList, customItemObject]))
+
                     setCustomItemName('')
                   }
                 }}

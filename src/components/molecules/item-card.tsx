@@ -1,14 +1,15 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Dimensions, Image, Text, View } from 'react-native'
 import { Colors, SharedStyles, Typography } from '../../style'
 import CategoryPill from '../atoms/category-pill'
 import PressableOpacity from '../atoms/PressableOpacity'
 
-import { useDispatch } from 'react-redux'
-import { addToList, setLoading } from '../../store/shopping-list-slice'
+import { useDispatch, useSelector } from 'react-redux'
+import { addToList, setLoading, storeListToAsync } from '../../store/shopping-list-slice'
 import { IShoppingListItem } from '../../interfaces/endpoints'
 
 import Lottie from 'lottie-react-native'
+import { storeShoppingList } from '../../async-storage'
 
 interface Props {
   itemId: string
@@ -30,6 +31,8 @@ interface Props {
 const ItemCard: React.FC<Props> = props => {
   const dispatch = useDispatch()
 
+  const { shoppingList } = useSelector((state: any) => state.shoppingList)
+
   const [animPlaying, setAnimPlaying] = useState<boolean>(false)
   const animationRef = useRef<Lottie>(null)
 
@@ -42,6 +45,10 @@ const ItemCard: React.FC<Props> = props => {
     startAt: props.startAt,
     endAt: props.endAt
   }
+
+  useEffect(() => {
+    dispatch(storeListToAsync(shoppingList))
+  }, [shoppingList])
 
   return (
     <View

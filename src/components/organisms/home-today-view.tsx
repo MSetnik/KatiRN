@@ -9,11 +9,13 @@ import CategoryItems from './category-items'
 
 // helpers
 import { checkIfCategoryHasItemsHelper } from '../../helpers'
+import { storeShoppingList } from '../../async-storage'
 
 const HomeTodayView = (props: any) => {
   // const dispatch = useDispatch();
   const { categories } = useSelector((state: any) => state.categories)
   const { products } = useSelector((state: any) => state.products)
+  const { shoppingList } = useSelector((state: any) => state.shoppingList)
   const [selectedIndex, setSelectedIndex] = useState<number>(0)
   const [categoriesWithProducts, setCategoriesWithProducts] = useState<ICategory[]>([])
 

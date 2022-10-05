@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { ActivityIndicator, FlatList, ScrollView, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import { storeShoppingList } from '../async-storage'
 import CategoryPill from '../components/atoms/category-pill'
 import CategoryItems from '../components/organisms/category-items'
 import { checkIfCatalogCategoryHasItemsHelper, checkIfCategoryHasItemsHelper, getProductsFromStoreCatalog } from '../helpers'
@@ -28,6 +29,7 @@ const CatalogView: React.FC<Props> = ({ navigation, route }) => {
   const { storeCatalog } = useSelector((state:any) => state.catalogs)
   const { products } = useSelector((state:any) => state.products)
   const { categories } = useSelector((state:any) => state.categories)
+  const { shoppingList } = useSelector((state:any) => state.shoppingList)
 
   useLayoutEffect(() => {
     navigation.setOptions({

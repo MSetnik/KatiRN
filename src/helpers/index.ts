@@ -30,7 +30,6 @@ export const getProductsFromStoreCatalog = (catalog: ICatalog, products: IProduc
 
 const getStoreCatalogsWithProducts = (lProducts: IProduct[], lCatalogs: ICatalog[]) : ICatalog[] => {
   const lCatalogsWithProducts: ICatalog[] = []
-  console.log(lProducts[3])
 
   lProducts.forEach((p: IProduct) => {
     lCatalogs.forEach((c: ICatalog) => {
