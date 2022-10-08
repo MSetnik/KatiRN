@@ -71,7 +71,8 @@ const ItemCard: React.FC<Props> = props => {
           alignSelf: 'center',
           borderRadius: Typography.FONT_SIZE_TITLE_MD / 4,
           backgroundColor: !itemImgLoading ? Colors.themeColor().background : Colors.themeColor().textSecondary,
-          opacity: !itemImgLoading ? 1 : 0.2
+          opacity: !itemImgLoading ? 1 : 0.2,
+          overflow: 'hidden'
         }}
       >
         <Image
