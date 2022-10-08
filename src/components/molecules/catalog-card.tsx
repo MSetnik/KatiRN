@@ -15,14 +15,16 @@ const CatalogCard: React.FC<Props> = ({ storeName, storeLogo, catalogDate, style
   return (
     <PressableOpacity
         onPress={onPress}
-        style={[SharedStyles.shadow.elevation5, {
+        style={[{
           borderRadius: Typography.FONT_SIZE_TITLE_MD / 2,
           width: '90%',
           height: Typography.FONT_SIZE_TITLE_MD * 5,
           marginTop: Typography.FONT_SIZE_TITLE_MD,
           flexDirection: 'row',
           backgroundColor: Colors.themeColor().cardBackground,
-          padding: Typography.FONT_SIZE_TITLE_MD / 2
+          padding: Typography.FONT_SIZE_TITLE_MD / 2,
+          borderColor: Colors.themeColor().borderColor,
+          borderWidth: 1
         }, style]
     }>
         <Image style={{ aspectRatio: 1 / 1, resizeMode: 'contain', borderRadius: Typography.FONT_SIZE_TITLE_MD / 4 }} source={{ uri: storeLogo }} />

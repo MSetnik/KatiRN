@@ -7,7 +7,7 @@ export const checkIfCategoryHasItemsHelper = (categories: ICategory[], products:
   categories.map((c: ICategory) => {
     let hasCategoryItems: boolean = false
     products.map((p: IProduct) => {
-      if (p.categoryId === c.id && !hasCategoryItems && p.categoryId !== '1' && dateNow >= p.startAt && dateNow <= p.endAt) {
+      if (p.categoryId === c.id && !hasCategoryItems && dateNow >= p.startAt && dateNow <= p.endAt) {
         categoriesWithProductsHelper.push(c)
         hasCategoryItems = true
       }
@@ -30,10 +30,15 @@ export const getProductsFromStoreCatalog = (catalog: ICatalog, products: IProduc
 
 const getStoreCatalogsWithProducts = (lProducts: IProduct[], lCatalogs: ICatalog[]) : ICatalog[] => {
   const lCatalogsWithProducts: ICatalog[] = []
+  const dateNow = Date.now().toString().substring(0, 10)
 
   lProducts.forEach((p: IProduct) => {
     lCatalogs.forEach((c: ICatalog) => {
-      if (p.storeId === c.storeId && c.dateFrom <= p.startAt && c.dateTo >= p.endAt) {
+      if (p.storeId === c.storeId &&
+        c.dateFrom <= p.startAt &&
+        c.dateTo >= p.endAt &&
+        dateNow >= p.startAt &&
+        dateNow <= p.endAt) {
         lCatalogsWithProducts.push(c)
       }
     })
@@ -47,16 +52,17 @@ export const getStoresFromCatalogsWithProducts = (lProducts: IProduct[], lCatalo
 
   const storesWithProductsFromCurrentCatalog : IStores[] = []
 
+  const dateNow = Date.now().toString().substring(0, 10)
+
   lStores.forEach((store: IStores) => {
     let storeFound: boolean = false
     currentCatalogs.forEach((c: ICatalog) => {
-      if (store.id === c.storeId && !storeFound) {
+      if (store.id === c.storeId && !storeFound && dateNow >= c.dateFrom && dateNow <= c.dateTo) {
         storesWithProductsFromCurrentCatalog.push(store)
         storeFound = true
       }
     })
   })
-
   return storesWithProductsFromCurrentCatalog
 }
 

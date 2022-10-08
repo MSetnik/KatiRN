@@ -66,6 +66,7 @@ const Home: React.FC<Props> = (props: any) => {
                   text: 'Započni novi',
                   onPress: () => {
                     dispatch(loadFromAsync([]))
+                    storeShoppingList([])
                   }
                 }
               ]
@@ -103,7 +104,7 @@ const Home: React.FC<Props> = (props: any) => {
           <Lottie
             style={{ width: 40, height: 40, justifyContent: 'center', alignItems: 'center' }}
             ref={animationRef}
-            source={require('../assets/lottie/cart-icon-added.json')}
+            source={require('../assets/lottie/lottie-cart-green.json')}
             loop={false}
             speed={1.5}
           />

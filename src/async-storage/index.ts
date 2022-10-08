@@ -6,8 +6,6 @@ const STORES_ASYNC = '@stores_async'
 
 export const storeShoppingList = async (shoppingList: IShoppingListItem[]) => {
   try {
-    console.log('da')
-    console.log(shoppingList)
     const jsonValue = JSON.stringify(shoppingList)
     await AsyncStorage.setItem(SHOPPING_LIST_PRODUCTS, jsonValue)
   } catch (e) {

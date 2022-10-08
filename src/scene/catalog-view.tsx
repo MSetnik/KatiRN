@@ -3,12 +3,15 @@ import { ActivityIndicator, FlatList, ScrollView, Text, View } from 'react-nativ
 import { useDispatch, useSelector } from 'react-redux'
 import { storeShoppingList } from '../async-storage'
 import CategoryPill from '../components/atoms/category-pill'
+import PressableOpacity from '../components/atoms/PressableOpacity'
 import CategoryItems from '../components/organisms/category-items'
 import { checkIfCatalogCategoryHasItemsHelper, checkIfCategoryHasItemsHelper, getProductsFromStoreCatalog } from '../helpers'
 import { ICatalog, ICategory, IProduct } from '../interfaces/endpoints'
 import { globalStore } from '../store'
 import { fetchStoreCatalog } from '../store/catalog-slice'
 import { Colors, Typography } from '../style'
+
+import Icon from 'react-native-vector-icons/Ionicons'
 
 interface Props {
   navigation: any,
@@ -33,7 +36,10 @@ const CatalogView: React.FC<Props> = ({ navigation, route }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: storeName + ' Katalog'
+      title: storeName + ' Katalog',
+      headerLeft: () => <PressableOpacity onPress={() => navigation.goBack()} style={{ }}>
+          <Icon name="chevron-back" size={24} color={Colors.themeColor().background} />
+        </PressableOpacity>
     })
   })
 
@@ -99,7 +105,7 @@ const CatalogView: React.FC<Props> = ({ navigation, route }) => {
                 return <CategoryPill
                   key={index}
                   text={category.name}
-                  selected={index === selectedIndex}
+                  selected={false}
                   onPress={() => {
                     setSelectedIndex(index)
                     productsListRef.current?.scrollToIndex({

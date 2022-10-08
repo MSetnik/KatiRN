@@ -19,7 +19,7 @@ const CategoryPill : React.FC<Props> = (props) => {
         onPress={props.onPress ? props.onPress : () => {}}
         style={[{
           borderRadius: 50,
-          backgroundColor: props.selected ? Colors.themeColor().secondary : Colors.themeColor().secondaryLight,
+          backgroundColor: props.selected ? Colors.themeColor().primaryLight : Colors.themeColor().primary,
           zIndex: 1,
           paddingHorizontal: Typography.FONT_SIZE_NORMAL,
           marginRight: Typography.FONT_SIZE_NORMAL * 0.5,
@@ -27,7 +27,7 @@ const CategoryPill : React.FC<Props> = (props) => {
           alignSelf: 'flex-start'
         }, props.style]}
     >
-        <Text style={[{ fontSize: Typography.FONT_SIZE_TITLE_LG / 2 }, props.textStyle]}>
+        <Text style={[{ fontSize: Typography.FONT_SIZE_TITLE_LG / 2, color: Colors.themeColor().background }, props.textStyle]}>
             {props.text}
         </Text>
     </PressableOpacity>

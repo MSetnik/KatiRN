@@ -25,7 +25,7 @@ const ViewpagerHeader : React.FC<Props> = (props) => {
             {
                 selectedEl === 0 &&
                 <View style={{
-                  backgroundColor: 'red',
+                  backgroundColor: Colors.themeColor().primary,
                   height: 1,
                   width: '100%',
                   marginTop: Typography.FONT_SIZE_NORMAL / 2
@@ -42,7 +42,7 @@ const ViewpagerHeader : React.FC<Props> = (props) => {
             {
                 selectedEl === 1 &&
                 <View style={{
-                  backgroundColor: 'red',
+                  backgroundColor: Colors.themeColor().primary,
                   height: 1,
                   width: '100%',
                   marginTop: Typography.FONT_SIZE_NORMAL / 2

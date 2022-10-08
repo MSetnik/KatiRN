@@ -52,14 +52,16 @@ const ItemCard: React.FC<Props> = props => {
   return (
     <View
       style={[
-        SharedStyles.shadow.elevation5,
+        // SharedStyles.shadow.elevation5,
         {
           width: Dimensions.get('window').width * 0.4,
           aspectRatio: 1 / 2,
           backgroundColor: Colors.themeColor().cardBackground,
           margin: Typography.FONT_SIZE_TITLE_MD / 2,
           borderRadius: Typography.FONT_SIZE_TITLE_MD / 2,
-          paddingTop: Typography.FONT_SIZE_TITLE_MD / 2
+          paddingTop: Typography.FONT_SIZE_TITLE_MD / 2,
+          borderColor: Colors.themeColor().borderColor,
+          borderWidth: 1
         }, props.style
       ]}>
       <View
@@ -180,7 +182,7 @@ const ItemCard: React.FC<Props> = props => {
               <Lottie
                 style={{ width: Typography.FONT_SIZE_TITLE_MD * 1.5, height: Typography.FONT_SIZE_TITLE_MD * 1.5, justifyContent: 'center', alignItems: 'center' }}
                 ref={animationRef}
-                source={require('../../assets/lottie/item-card-added.json')}
+                source={require('../../assets/lottie/lottie-green.json')}
                 loop={false}
                 speed={2}
 

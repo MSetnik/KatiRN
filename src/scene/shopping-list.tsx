@@ -20,18 +20,11 @@ const ShoppingList: React.FC<Props> = ({ navigation }) => {
 
   useEffect(() => {
     const getStoresFromAsync = async () => {
-      // if (shoppingList.length === 0) {
-      //   setDataToRender(shoppingListToRender(shoppingList, await getStores()))
-      // } else {
-      //   setDataToRender(shoppingListToRender(shoppingList, stores))
-      // }
       setDataToRender(shoppingListToRender(shoppingList, await getStores()))
     }
 
     getStoresFromAsync()
-  }, [])
-
-  console.log(dataToRender)
+  }, [shoppingList])
 
   if (dataToRender.length === 0) {
     return (

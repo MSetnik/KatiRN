@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 import React, { useState, useRef, useEffect } from 'react'
-import { FlatList, ScrollView } from 'react-native'
+import { Dimensions, FlatList, ScrollView, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { ICategory } from '../../interfaces/endpoints'
 import { Typography } from '../../style'
@@ -25,6 +25,14 @@ const HomeTodayView = (props: any) => {
     setCategoriesWithProducts(checkIfCategoryHasItemsHelper(categories, products))
   }, [categories, products])
 
+  if (categoriesWithProducts.length === 0) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', marginTop: Dimensions.get('window').height / 3 }}>
+        <Text>Nema proizvoda na akciji za današnji dan.</Text>
+      </View>
+    )
+  }
+
   return (
     <>
         <ScrollView
@@ -35,24 +43,25 @@ const HomeTodayView = (props: any) => {
             }}
             style={{
               flexGrow: 0,
-              marginBottom: Typography.FONT_SIZE_NORMAL / 2
+              marginBottom: Typography.FONT_SIZE_TITLE_MD / 2
             }}>
                 {
-                  categoriesWithProducts.map((category: ICategory, index: number) => (
-                    <CategoryPill
-                      key={index}
-                      text={category.name}
-                      selected={index === selectedIndex}
-                      onPress={() => {
-                        setSelectedIndex(index)
-                        productsListRef.current?.scrollToIndex({
-                          index,
-                          animated: true
-                        })
-                      }}
-                    />
-
-                  ))
+                  categoriesWithProducts.map((category: ICategory, index: number) => {
+                    // if (category.id !== '1') {
+                    return (<CategoryPill
+                        key={index}
+                        text={category.name}
+                        selected={false}
+                        onPress={() => {
+                          setSelectedIndex(index)
+                          productsListRef.current?.scrollToIndex({
+                            index,
+                            animated: true
+                          })
+                        }}
+                      />)
+                    // }
+                  })
                 }
         </ScrollView>
         {
@@ -68,7 +77,7 @@ const HomeTodayView = (props: any) => {
           initialScrollIndex={selectedIndex}
           data={categoriesWithProducts}
           renderItem={({ item, index }) => {
-            if (index === 0) {
+            if (index === 0 && item.categoryId === '1') {
               return <>
                <CategoryItems
                   categoryId={'1'}
@@ -78,7 +87,12 @@ const HomeTodayView = (props: any) => {
                   onPress={() => props.navigation.navigate('SpecialOffer')}
                   />
 
-                <CategoryItems key={index} categoryTitle={item.name} categoryId={item.id} showButton={false} setSelectedCategory={setSelectedIndex}/>
+                <CategoryItems
+                  key={index}
+                  categoryTitle={item.name}
+                  categoryId={item.id}
+                  showButton={false}
+                  setSelectedCategory={setSelectedIndex}/>
 
               </>
             }

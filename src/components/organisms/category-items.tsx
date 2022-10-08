@@ -16,6 +16,7 @@ interface Props {
     onPress?: (params: any) => any | undefined,
     setSelectedCategory?: any,
     storeId?: string,
+    isFirst?: boolean
 }
 
 const CategoryItems : React.FC<Props> = (props) => {
@@ -90,14 +91,31 @@ const CategoryItems : React.FC<Props> = (props) => {
       // console.log(viewableItems)
     }
   }, [])
+
+  // console.log(products.filter((p: IProduct) => p.categoryId === props.categoryId && dateNow <= p.startAt && dateNow >= p.endAt).length)
   return (
-    <View>
+    <View style={{
+      marginBottom: Typography.FONT_SIZE_TITLE_MD
+    }}>
+      {
+        !props.isFirst &&
+          <View style={{
+            // width: '100%',
+            flex: 1,
+            height: 1,
+            backgroundColor: Colors.themeColor().borderColor,
+            marginHorizontal: Typography.FONT_SIZE_TITLE_MD,
+            marginBottom: Typography.FONT_SIZE_TITLE_MD
+          }}/>
+      }
+
         <Text
           style={{
             marginLeft: Typography.FONT_SIZE_TITLE_MD,
-            marginTop: Typography.FONT_SIZE_TITLE_MD / 2,
-            fontWeight: Typography.FONT_WEIGHT_MEDIUM,
-            color: Colors.themeColor().textPrimary
+            // marginTop: Typography.FONT_SIZE_TITLE_MD / 2,
+            fontWeight: Typography.FONT_WEIGHT_BOLD,
+            color: Colors.themeColor().textPrimary,
+            marginBottom: Typography.FONT_SIZE_TITLE_MD / 2
           }}>
           {props.categoryTitle}
         </Text>
@@ -196,8 +214,8 @@ const CategoryItems : React.FC<Props> = (props) => {
                 }}
                 style={{
                   alignSelf: 'auto',
-                  alignItems: products.filter((p: IProduct) => p.categoryId === props.categoryId).length === 1 ? 'baseline' : 'center',
-                  marginLeft: products.filter((p: IProduct) => p.categoryId === props.categoryId).length === 1 ? '5%' : 0
+                  alignItems: products.filter((p: IProduct) => p.categoryId === props.categoryId && dateNow >= p.startAt && dateNow <= p.endAt).length === 1 ? 'baseline' : 'center',
+                  marginLeft: products.filter((p: IProduct) => p.categoryId === props.categoryId && dateNow >= p.startAt && dateNow <= p.endAt).length === 1 ? '5%' : 0
                 }}
                 onViewableItemsChanged={ onViewableItemsChanged }
                 viewabilityConfig={ viewabilityConfig }

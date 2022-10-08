@@ -30,6 +30,9 @@ const shoppingListSlice = createSlice({
     },
     setLoading  (state, action: PayloadAction<boolean>) {
       state.loading = action.payload
+    },
+    loadFromAsync (state, action: PayloadAction<IShoppingListItem[]>) {
+      state.shoppingList = action.payload
     }
   },
   extraReducers: builder => {
