@@ -47,7 +47,8 @@ export const getAllProducts = async () => {
       discountedPrice: doc.data().discountedPrice,
       imgUrl: doc.data().imgUrl,
       startAt: doc.data().startAt.seconds,
-      endAt: doc.data().endAt.seconds
+      endAt: doc.data().endAt.seconds,
+      catalogId: doc.data().catalogId
     }
     return product
   })

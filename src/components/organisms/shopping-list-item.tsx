@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Alert, Button, FlatList, Image, KeyboardAvoidingView, ScrollView, Text, TextInput, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { useDispatch, useSelector } from 'react-redux'
+import { storeShoppingList } from '../../async-storage'
 import { calculatePercentage, shoppingListToRender } from '../../helpers'
 import { IProduct, IShoppingListItem } from '../../interfaces/endpoints'
 import { addToList, removeFromList, storeListToAsync } from '../../store/shopping-list-slice'
@@ -57,6 +58,13 @@ const ShoppingListItem: React.FC<Props> = ({ itemId, itemsList, storeId, storeIm
     }
   }, [!isEditing])
 
+  useEffect(() => {
+    const updateShoppingListInAsync = async () => {
+      await storeShoppingList(shoppingList)
+    }
+    updateShoppingListInAsync()
+  }, [shoppingList])
+
   return (
     <View style={{ flex: 1, paddingHorizontal: Typography.FONT_SIZE_TITLE_MD, paddingTop: Typography.FONT_SIZE_TITLE_MD }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: Typography.FONT_SIZE_TITLE_MD / 2, justifyContent: 'space-between' }}>
@@ -89,7 +97,7 @@ const ShoppingListItem: React.FC<Props> = ({ itemId, itemsList, storeId, storeIm
                           },
                           {
                             text: 'Ukloni',
-                            onPress: () => {
+                            onPress: async () => {
                               itemsList.forEach((item: any) => {
                                 dispatch(removeFromList(item.id))
                               })
@@ -116,8 +124,11 @@ const ShoppingListItem: React.FC<Props> = ({ itemId, itemsList, storeId, storeIm
                 marginBottom: 4
               }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'baseline' }}>
-                    <Text style={{
-                      color: Colors.themeColor().textPrimary
+                    <Text
+                    numberOfLines={1}
+                    style={{
+                      color: Colors.themeColor().textPrimary,
+                      maxWidth: '60%'
                     }}>- {item.name}</Text>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'baseline' }}>
                       <Text style={{

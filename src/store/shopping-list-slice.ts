@@ -25,6 +25,7 @@ const shoppingListSlice = createSlice({
       state.shoppingList.forEach((item: IShoppingListItem, index: number) => {
         if (item.id === action.payload) {
           state.shoppingList.splice(index, 1)
+          console.log(state.shoppingList)
         }
       })
     },

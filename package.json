@@ -1,6 +1,6 @@
 {
   "name": "KatiRN",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -16,6 +16,7 @@
     "@reduxjs/toolkit": "^1.8.5",
     "firebase": "^9.10.0",
     "lottie-react-native": "^5.1.4",
+    "moment": "^2.29.4",
     "react": "18.1.0",
     "react-native": "0.70.1",
     "react-native-safe-area-context": "^4.3.4",

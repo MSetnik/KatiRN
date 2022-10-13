@@ -21,10 +21,11 @@ export const getProductsFromStoreCatalog = (catalog: ICatalog, products: IProduc
   const lProductsFromCatalog: IProduct[] = []
 
   products.forEach((p: IProduct) => {
-    if (catalog.dateFrom <= p.startAt && catalog.dateTo >= p.endAt && p.storeId === catalog.storeId) {
+    if (catalog.dateFrom <= p.startAt && catalog.dateTo >= p.endAt && p.catalogId === catalog.id) {
       lProductsFromCatalog.push(p)
     }
   })
+
   return lProductsFromCatalog
 }
 
@@ -114,4 +115,35 @@ export const calculatePercentage = (discountedPrice: number, fullPrice: number) 
   const percent = (100 - (fullPrice * 100) / discountedPrice)
 
   return percent.toFixed(0)
+}
+
+export const getCurrentCatalogs = (lProducts: IProduct[], lCatalogs: ICatalog[], lStores: IStores[]) => {
+  const dateNow = Date.now().toString().substring(0, 10)
+
+  const currentCatalogs = lCatalogs.filter((c:ICatalog) => c.dateFrom < dateNow && dateNow < c.dateTo)
+  console.log(currentCatalogs)
+
+  const catalogs : any[] = []
+
+  lStores.forEach((store: IStores) => {
+    let storeFound: boolean = false
+    currentCatalogs.forEach((c: ICatalog) => {
+      if (store.id === c.storeId) {
+        const catalogData: any = {
+          catalogId: c.id,
+          storeId: store.id,
+          storeName: store.name,
+          storeImg: store.imgUrl,
+          catalogFrom: c.dateFrom,
+          catalogTo: c.dateTo
+        }
+
+        catalogs.push(catalogData)
+        storeFound = true
+      }
+    })
+  })
+
+  console.log(catalogs)
+  return catalogs
 }

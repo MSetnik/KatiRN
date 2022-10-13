@@ -21,6 +21,7 @@ interface Props {
 const CatalogView: React.FC<Props> = ({ navigation, route }) => {
   const storeId = route.params.storeId
   const storeName = route.params.storeName
+  const catalogId = route.params.catalogId
   const [productsFromCatalog, setProductsFromCatalog] = useState<IProduct[]>([])
   const [selectedIndex, setSelectedIndex] = useState<number>(0)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -62,14 +63,26 @@ const CatalogView: React.FC<Props> = ({ navigation, route }) => {
       storeCatalog.forEach((storeCatalog: ICatalog) => {
         if (storeCatalog.storeId === storeId) {
           catalogData = storeCatalog
+          console.log(storeCatalog)
         }
       })
 
       if (catalogData !== null) {
-        setProductsFromCatalog(getProductsFromStoreCatalog(catalogData, products))
+        // setProductsFromCatalog(getProductsFromStoreCatalog(catalogData, products))
       }
     }
   }, [storeCatalog])
+
+  useEffect(() => {
+    const productsFromCatalog: any = []
+    products.forEach((p: IProduct) => {
+      if (p.catalogId === catalogId) {
+        productsFromCatalog.push(p)
+      }
+    })
+
+    setProductsFromCatalog(productsFromCatalog)
+  }, [])
 
   if (isLoading) {
     return (

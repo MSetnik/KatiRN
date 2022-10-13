@@ -21,7 +21,8 @@ export interface IProduct {
     discountedPrice: number,
     description: string,
     startAt: string,
-    endAt: string
+    endAt: string,
+    catalogId: string
 }
 
 export interface ICatalog {
