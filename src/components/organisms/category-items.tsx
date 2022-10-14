@@ -126,7 +126,7 @@ const CategoryItems : React.FC<Props> = (props) => {
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
-            data={products.filter((p: IProduct) => p.categoryId === '1')}
+            data={products.filter((p: IProduct) => p.categoryId === '1' && dateNow >= p.startAt && dateNow <= p.endAt)}
             contentContainerStyle={{
               paddingLeft: 20
             }}
@@ -157,7 +157,6 @@ const CategoryItems : React.FC<Props> = (props) => {
               } else if (index === 6) {
                 return (
                   <>
-
                     <ItemCard
                       storeId={item.storeId}
                       itemId={item.id}
@@ -210,7 +209,8 @@ const CategoryItems : React.FC<Props> = (props) => {
                 showsVerticalScrollIndicator={false}
                 data={props.storeId === undefined ? products.filter((p: IProduct) => p.categoryId === props.categoryId) : products.filter((p: IProduct) => p.categoryId === props.categoryId && p.storeId === props.storeId)}
                 contentContainerStyle={{
-                  marginLeft: '5%'
+                  marginLeft: '5%',
+                  alignItems: products.filter((p: IProduct) => p.categoryId === props.categoryId && dateNow >= p.startAt && dateNow <= p.endAt).length === 1 ? 'baseline' : 'center'
                 }}
                 style={{
                   alignSelf: 'auto',

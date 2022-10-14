@@ -6,7 +6,7 @@ import PressableOpacity from '../components/atoms/PressableOpacity'
 import ViewpagerHeader from '../components/molecules/viewpager-header'
 import HomeTodayView from '../components/organisms/home-today-view'
 import { getCategories, getStoreData } from '../endpoints/firestore'
-import { ICategory, IStores } from '../interfaces/endpoints'
+import { ICategory, IShoppingListItem, IStores } from '../interfaces/endpoints'
 import { fetchCatalogs } from '../store/catalog-slice'
 import { fetchCategories, setCategories } from '../store/category-slice'
 import { fetchAllProducts } from '../store/product-stlice'
@@ -15,7 +15,8 @@ import { Colors, Typography } from '../style'
 import HomeCatalogs from './home-catalogs'
 import Lottie from 'lottie-react-native'
 import { getShoppingList, getStores, saveStores, storeShoppingList } from '../async-storage'
-import { addToList, loadFromAsync, setShoppingList } from '../store/shopping-list-slice'
+import { addToList, loadFromAsync, removeFromList, setShoppingList, storeListToAsync } from '../store/shopping-list-slice'
+import moment from 'moment'
 
 interface Props {
   navigation: any
@@ -46,10 +47,7 @@ const Home: React.FC<Props> = (props: any) => {
           if (resp[1].payload.length !== 0) {
             saveStores(resp[1].payload)
           }
-
-          if (shoppingList.length === 0) {
-            dispatch(setShoppingList(await getShoppingList()))
-          }
+          dispatch(setShoppingList(resp[4]))
 
           setFetchingData(false)
 
@@ -60,7 +58,14 @@ const Home: React.FC<Props> = (props: any) => {
               [
                 {
                   text: 'Nastavi',
-                  onPress: () => console.log('Cancel Pressed')
+                  onPress: () => {
+                    resp[4].forEach((item: IShoppingListItem) => {
+                      if (moment().unix() > parseInt(item.endAt)) {
+                        dispatch(removeFromList(item.id))
+                        storeShoppingList(shoppingList)
+                      }
+                    })
+                  }
                 },
                 {
                   text: 'Započni novi',
@@ -72,6 +77,9 @@ const Home: React.FC<Props> = (props: any) => {
               ]
             )
           }
+        })
+        .then(async () => {
+          await getShoppingList()
         })
         .catch((e) => {
           console.log(e)

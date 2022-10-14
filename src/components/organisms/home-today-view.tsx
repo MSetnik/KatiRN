@@ -77,7 +77,7 @@ const HomeTodayView = (props: any) => {
           initialScrollIndex={selectedIndex}
           data={categoriesWithProducts}
           renderItem={({ item, index }) => {
-            if (index === 0 && item.categoryId === '1') {
+            if (index === 0 && item.id === '1') {
               return <>
                <CategoryItems
                   categoryId={'1'}
@@ -86,17 +86,10 @@ const HomeTodayView = (props: any) => {
                   isHorizontal={true}
                   onPress={() => props.navigation.navigate('SpecialOffer')}
                   />
-
-                <CategoryItems
-                  key={index}
-                  categoryTitle={item.name}
-                  categoryId={item.id}
-                  showButton={false}
-                  setSelectedCategory={setSelectedIndex}/>
-
               </>
+            } else {
+              return <CategoryItems key={index} categoryTitle={item.name} categoryId={item.id} showButton={false} setSelectedCategory={setSelectedIndex} />
             }
-            return <CategoryItems key={index} categoryTitle={item.name} categoryId={item.id} showButton={false} setSelectedCategory={setSelectedIndex} />
           }}/>
         }
 

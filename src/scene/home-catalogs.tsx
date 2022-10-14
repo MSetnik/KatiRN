@@ -33,7 +33,6 @@ const HomeCatalogs: React.FC<Props> = ({ navigation }) => {
       paddingBottom: Typography.FONT_SIZE_TITLE_MD,
       marginTop: -Typography.FONT_SIZE_TITLE_MD / 2
     }}
-      // data={getStoresFromCatalogsWithProducts(products, catalog, stores)}
       data={getCurrentCatalogs(products, catalog, stores)}
       renderItem={({ item, index }) => {
         return (
@@ -44,7 +43,7 @@ const HomeCatalogs: React.FC<Props> = ({ navigation }) => {
             }}
             storeName={item.storeName}
             storeLogo={item.storeImg}
-            catalogDate={`Od ${moment.unix(item.catalogFrom).format('dddd')} ${moment.unix(item.catalogFrom).format('DD.MM')} do ${moment.unix(item.catalogFrom).format('dddd')} ${moment.unix(item.catalogTo).format('DD.MM')}`}
+            catalogDate={`Od ${moment.unix(item.catalogFrom).format('DD.MM.')} do ${moment.unix(item.catalogTo).format('DD.MM.')}`}
            />
         )
       }}

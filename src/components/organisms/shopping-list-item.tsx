@@ -42,8 +42,8 @@ const ShoppingListItem: React.FC<Props> = ({ itemId, itemsList, storeId, storeIm
   useEffect(() => {
     const getShoppingListItemsTotal = () => {
       itemsList.forEach((item: IProduct) => {
-        setItemsFullPriceTotal((prevTotal) => prevTotal + item.fullPrice)
-        setITemsDiscountedPriceTotal((prevTotal) => prevTotal + item.discountedPrice)
+        setItemsFullPriceTotal((prevTotal) => parseFloat(prevTotal) + parseFloat(item.fullPrice))
+        setITemsDiscountedPriceTotal((prevTotal) => parseFloat(prevTotal) + parseFloat(item.discountedPrice))
       })
     }
     getShoppingListItemsTotal()
@@ -210,10 +210,10 @@ const ShoppingListItem: React.FC<Props> = ({ itemId, itemsList, storeId, storeIm
               color: Colors.themeColor().textSecondary,
               marginRight: Typography.FONT_SIZE_TITLE_MD / 2,
               fontSize: Typography.FONT_SIZE_TITLE_LG / 2
-            }}>{itemsFullPriceTotal.toFixed(2)} kn</Text>
+            }}>{parseFloat(itemsFullPriceTotal).toFixed(2)} kn</Text>
             <Text style={{
               color: Colors.themeColor().textPrimary
-            }}>{itemsDiscountedlPriceTotal.toFixed(2)} kn</Text>
+            }}>{parseFloat(itemsDiscountedlPriceTotal).toFixed(2)} kn</Text>
         </View>
     </View>
   )

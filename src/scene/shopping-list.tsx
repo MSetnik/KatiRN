@@ -1,11 +1,13 @@
 /* eslint-disable react/no-unescaped-entities */
+import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { FlatList, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getStores } from '../async-storage'
 import ShoppingListItem from '../components/organisms/shopping-list-item'
 import { shoppingListToRender } from '../helpers'
-import { IShoppingListItem } from '../interfaces/endpoints'
+import { IProduct, IShoppingListItem } from '../interfaces/endpoints'
+import { removeFromList, storeListToAsync } from '../store/shopping-list-slice'
 import { Colors, Typography } from '../style'
 
 interface Props {
@@ -15,6 +17,8 @@ interface Props {
 const ShoppingList: React.FC<Props> = ({ navigation }) => {
   const { shoppingList } = useSelector((state: any) => state.shoppingList)
   const { stores } = useSelector((state: any) => state.stores)
+
+  const dispatch = useDispatch()
 
   const [dataToRender, setDataToRender] = useState<any[]>([])
 
