@@ -95,13 +95,17 @@ const ItemCard: React.FC<Props> = props => {
         }}>
         <Text style={{
           color: Colors.themeColor().textPrimary
-        }}>{props.itemName}</Text>
+        }}
+        numberOfLines={1}
+        >{props.itemName}</Text>
 
         <Text
           style={{
             fontSize: Typography.FONT_SIZE_TITLE_LG / 2,
             color: Colors.themeColor().textSecondary
-          }}>
+          }}
+          numberOfLines={1}
+          >
           {props.itemDescription}
         </Text>
 
@@ -121,40 +125,46 @@ const ItemCard: React.FC<Props> = props => {
               isDisabled={true}
               style={{
                 paddingHorizontal: 5,
-                backgroundColor: Colors.themeColor().primary,
+                backgroundColor: Colors.themeColor().discountColor,
                 borderRadius: Typography.FONT_SIZE_TITLE_MD / 4
               }}
               textStyle={{
                 fontSize: Typography.FONT_SIZE_TITLE_MD / 2,
-                color: Colors.themeColor().background
+                color: Colors.themeColor().discountTextColor,
+                fontWeight: 'bold'
               }}
             />
 
             <Text style={{
               marginTop: Typography.FONT_SIZE_NORMAL / 4,
-              color: Colors.themeColor().textPrimary
+              color: Colors.themeColor().textPrimary,
+              fontSize: Typography.FONT_SIZE_NORMAL
             }}>
               {props.itemDiscountedPrice + ' kn'}
             </Text>
             <Text
               style={{
                 marginTop: Typography.FONT_SIZE_NORMAL / 4,
-                fontSize: Typography.FONT_SIZE_TITLE_MD / 2,
                 textDecorationLine: 'line-through',
-                color: Colors.themeColor().textSecondary
+                color: Colors.themeColor().textSecondary,
+                fontSize: Typography.FONT_SIZE_TITLE_MD / 2
+
               }}>
               {props.itemFullPrice + ' kn'}
             </Text>
             <Text style={{
               marginTop: Typography.FONT_SIZE_NORMAL / 4,
-              color: Colors.themeColor().textPrimary
+              color: Colors.themeColor().textPrimary,
+              fontSize: Typography.FONT_SIZE_TITLE_LG / 2
+
             }}>
               {props.itemDiscountedPriceEur + '€'}
             </Text>
             <Text
               style={{
                 marginTop: Typography.FONT_SIZE_NORMAL / 4,
-                fontSize: Typography.FONT_SIZE_TITLE_MD / 2,
+                // fontSize: Typography.FONT_SIZE_TITLE_MD / 2,
+                fontSize: Typography.FONT_SIZE_MEDIUM / 2,
                 textDecorationLine: 'line-through',
                 color: Colors.themeColor().textSecondary
               }}>

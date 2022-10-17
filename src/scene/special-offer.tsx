@@ -83,9 +83,6 @@ const SpecialOffer : React.FC<Props> = ({ navigation }) => {
               storeName={getStoreData(item.storeId).name}
               startAt={item.startAt}
               endAt={item.endAt}
-              style={{
-                width: 150
-              }}
             />
         }}
 

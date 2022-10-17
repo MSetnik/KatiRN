@@ -13,7 +13,10 @@ export const darkTheme = {
   successText: '#0DAF6F',
   background: '#FFFFFF',
   backgroundDark: '#000000',
-  borderColor: 'rgba(0,0,0, 0.2)'
+  borderColor: 'rgba(0,0,0, 0.2)',
+  // discountColor: '#fff400',
+  discountColor: '#ec182b',
+  discountTextColor: '#FFFFFF'
 }
 
 export const lightTheme = {
@@ -30,8 +33,9 @@ export const lightTheme = {
   successText: '#9DE47C',
   background: '#FFFFFF',
   backgroundDark: '#000000',
-  borderColor: 'rgba(0,0,0, 0.1)'
-
+  borderColor: 'rgba(0,0,0, 0.1)',
+  discountColor: '#0DAF6F',
+  discountTextColor: '#FFFFFF'
 }
 
 // Color theme selector
