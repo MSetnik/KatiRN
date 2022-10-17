@@ -1,21 +1,19 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { View, Text, ActivityIndicator, Alert } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import { View, ActivityIndicator, Alert, StatusBar } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import PressableOpacity from '../components/atoms/PressableOpacity'
 import ViewpagerHeader from '../components/molecules/viewpager-header'
 import HomeTodayView from '../components/organisms/home-today-view'
-import { getCategories, getStoreData } from '../endpoints/firestore'
-import { ICategory, IShoppingListItem, IStores } from '../interfaces/endpoints'
+import { IShoppingListItem } from '../interfaces/endpoints'
 import { fetchCatalogs } from '../store/catalog-slice'
-import { fetchCategories, setCategories } from '../store/category-slice'
+import { fetchCategories } from '../store/category-slice'
 import { fetchAllProducts } from '../store/product-stlice'
-import { fetchStores, setStores } from '../store/store-slice'
-import { Colors, Typography } from '../style'
+import { fetchStores } from '../store/store-slice'
+import { Colors } from '../style'
 import HomeCatalogs from './home-catalogs'
 import Lottie from 'lottie-react-native'
 import { getShoppingList, getStores, saveStores, storeShoppingList } from '../async-storage'
-import { addToList, loadFromAsync, removeFromList, setShoppingList, storeListToAsync } from '../store/shopping-list-slice'
+import { loadFromAsync, removeFromList, setShoppingList } from '../store/shopping-list-slice'
 import moment from 'moment'
 
 interface Props {
@@ -47,7 +45,10 @@ const Home: React.FC<Props> = (props: any) => {
           if (resp[1].payload.length !== 0) {
             saveStores(resp[1].payload)
           }
-          dispatch(setShoppingList(resp[4]))
+
+          if (resp[4] !== null) {
+            dispatch(setShoppingList(resp[4]))
+          }
 
           setFetchingData(false)
 
@@ -124,6 +125,12 @@ const Home: React.FC<Props> = (props: any) => {
   if (fetchingData) {
     return (
       <View style={{ flex: 1, backgroundColor: Colors.themeColor().background, justifyContent: 'center', alignItems: 'center' }}>
+        {/* <StatusBar
+          animated={true}
+          backgroundColor={Colors.themeColor().primaryDark}
+          barStyle={'light-content'}
+          showHideTransition={'slide'}
+          hidden={false} /> */}
           <ActivityIndicator size='large' color={Colors.themeColor().primary} />
       </View>
     )
@@ -135,6 +142,12 @@ const Home: React.FC<Props> = (props: any) => {
         backgroundColor: Colors.themeColor().background,
         flex: 1
       }}>
+      {/* <StatusBar
+        animated={true}
+        backgroundColor={Colors.themeColor().primaryDark}
+        barStyle={'light-content'}
+        showHideTransition={'slide'}
+        hidden={false} /> */}
       <ViewpagerHeader setSelectedElementIndex={setSelectedElementIndex} />
 
       {

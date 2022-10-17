@@ -1,17 +1,30 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { FlatList, Text, View } from 'react-native'
+import Icon from 'react-native-vector-icons/Ionicons'
 import { useSelector } from 'react-redux'
+import PressableOpacity from '../components/atoms/PressableOpacity'
 import ItemCard from '../components/molecules/item-card'
-import CategoryItems from '../components/organisms/category-items'
 import { calculatePercentage } from '../helpers'
 import { IProduct, IStores } from '../interfaces/endpoints'
 import { Colors, Typography } from '../style'
 
-const SpecialOffer = () => {
+interface Props {
+  navigation: any
+}
+
+const SpecialOffer : React.FC<Props> = ({ navigation }) => {
   const { products } = useSelector((state: any) => state.products)
   const { stores } = useSelector((state: any) => state.stores)
 
   const dateNow = new Date().getTime().toString().substr(0, 10)
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => <PressableOpacity onPress={() => navigation.goBack()} style={{ }}>
+          <Icon name="chevron-back" size={24} color={Colors.themeColor().background} />
+        </PressableOpacity>
+    })
+  })
 
   const getStoreData = (storeId: string) => {
     const imgArray = stores.map((store: IStores) => {

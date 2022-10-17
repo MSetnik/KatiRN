@@ -19,6 +19,7 @@ export const darkTheme = {
 export const lightTheme = {
   primary: '#F56A4D',
   primaryLight: '#FEEFEC',
+  primaryDark: '#007E43',
   secondary: '#9DE47C',
   secondaryLight: 'rgba(157,228,124,0.35)',
   cardBackground: '#FCFCFC',

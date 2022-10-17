@@ -1,10 +1,8 @@
-import { endAt } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
-import { Alert, Button, FlatList, Image, KeyboardAvoidingView, ScrollView, Text, TextInput, View } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import { Alert, FlatList, Image, Platform, Text, TextInput, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { storeShoppingList } from '../../async-storage'
-import { calculatePercentage, shoppingListToRender } from '../../helpers'
+import { calculatePercentage } from '../../helpers'
 import { IProduct, IShoppingListItem } from '../../interfaces/endpoints'
 import { addToList, removeFromList, storeListToAsync } from '../../store/shopping-list-slice'
 import { Colors, Typography } from '../../style'
@@ -161,7 +159,13 @@ const ShoppingListItem: React.FC<Props> = ({ itemId, itemsList, storeId, storeIm
 
           {
             isEditing &&
-            <View style={{ flex: 1, flexDirection: 'row', marginHorizontal: Typography.FONT_SIZE_TITLE_MD / 2, alignItems: 'center' }}>
+            <View style={{
+              flex: 1,
+              flexDirection: 'row',
+              marginHorizontal: Typography.FONT_SIZE_TITLE_MD / 2,
+              alignItems: 'center',
+              marginTop: Platform.OS === 'android' ? -10 : 0
+            }}>
               <Text style={{
                 color: Colors.themeColor().textSecondary
               }}>- </Text>

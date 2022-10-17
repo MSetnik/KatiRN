@@ -1,13 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
-import moment from 'moment'
-import React, { useEffect, useState } from 'react'
-import { FlatList, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from 'react-native'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { FlatList, Keyboard, KeyboardAvoidingView, Platform, Pressable, Text, View } from 'react-native'
+import Icon from 'react-native-vector-icons/Ionicons'
 import { useDispatch, useSelector } from 'react-redux'
 import { getStores } from '../async-storage'
+import PressableOpacity from '../components/atoms/PressableOpacity'
 import ShoppingListItem from '../components/organisms/shopping-list-item'
 import { shoppingListToRender } from '../helpers'
-import { IProduct, IShoppingListItem } from '../interfaces/endpoints'
-import { removeFromList, storeListToAsync } from '../store/shopping-list-slice'
 import { Colors, Typography } from '../style'
 
 interface Props {
@@ -21,6 +20,16 @@ const ShoppingList: React.FC<Props> = ({ navigation }) => {
   const dispatch = useDispatch()
 
   const [dataToRender, setDataToRender] = useState<any[]>([])
+
+  useLayoutEffect(() => {
+    if (Platform.OS !== 'ios') {
+      navigation.setOptions({
+        headerLeft: () => <PressableOpacity onPress={() => navigation.goBack()} style={{ }}>
+          <Icon name="chevron-back" size={24} color={Colors.themeColor().background} />
+        </PressableOpacity>
+      })
+    }
+  })
 
   useEffect(() => {
     const getStoresFromAsync = async () => {
@@ -42,7 +51,7 @@ const ShoppingList: React.FC<Props> = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView style={{ flex: 1, backgroundColor: Colors.themeColor().background }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 120 : 140}>
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 120 : 80}>
 
       <FlatList
           style={{
