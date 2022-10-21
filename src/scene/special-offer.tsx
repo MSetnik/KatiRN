@@ -45,14 +45,25 @@ const SpecialOffer : React.FC<Props> = ({ navigation }) => {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: Colors.themeColor().background }}>
-      <FlatList style={{ flex: 1, backgroundColor: Colors.themeColor().background }}
+      <FlatList style={{
+        flex: 1,
+        backgroundColor: Colors.themeColor().background
+        // alignSelf: 'auto'
+
+      }}
         numColumns={2}
         contentContainerStyle={{
-          flex: 1,
-          alignItems: 'center'
+          marginLeft: products.filter((p: IProduct) => dateNow >= p.startAt && dateNow <= p.endAt && p.categoryId === '1').length === 1 ? '5%' : 0,
+          alignItems: products.filter((p: IProduct) => dateNow >= p.startAt && dateNow <= p.endAt && p.categoryId === '1').length === 1 ? 'baseline' : 'center',
+          paddingBottom: Typography.FONT_SIZE_TITLE_MD * 2
         }}
-        ListHeaderComponent={<View style={{ flexDirection: 'row', paddingHorizontal: Typography.FONT_SIZE_TITLE_MD / 2, paddingTop: Typography.FONT_SIZE_TITLE_MD }}>
+        ListHeaderComponent={
+        <View style={{
+          flexDirection: 'row',
+          paddingHorizontal: Typography.FONT_SIZE_TITLE_MD / 2,
+          paddingTop: Typography.FONT_SIZE_TITLE_MD,
+          marginLeft: products.filter((p: IProduct) => dateNow >= p.startAt && dateNow <= p.endAt && p.categoryId === '1').length === 1 ? '-5%' : 0
+        }}>
           <Text
             style={{
               marginLeft: Typography.FONT_SIZE_TITLE_MD / 2,
@@ -67,8 +78,8 @@ const SpecialOffer : React.FC<Props> = ({ navigation }) => {
         ListHeaderComponentStyle={{ flexDirection: 'row', width: '100%' }}
         data={products.filter((p: IProduct) => dateNow >= p.startAt && dateNow <= p.endAt && p.categoryId === '1')}
         renderItem={({ item, index }) => {
-          // return <CategoryItems categoryId={item.categoryId} categoryTitle='Posebna ponuda' showButton={false} />
           return <ItemCard
+              key={index}
               storeId={item.storeId}
               itemId={item.id}
               imgUrl={item.imgUrl}
@@ -83,11 +94,13 @@ const SpecialOffer : React.FC<Props> = ({ navigation }) => {
               storeName={getStoreData(item.storeId).name}
               startAt={item.startAt}
               endAt={item.endAt}
+              style={{
+                width: 150
+              }}
             />
         }}
 
       />
-    </View>
   )
 }
 

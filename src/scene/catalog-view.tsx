@@ -143,7 +143,7 @@ const CatalogView: React.FC<Props> = ({ navigation, route }) => {
             initialScrollIndex={selectedIndex}
             data={checkIfCatalogCategoryHasItemsHelper(categories, productsFromCatalog)}
             renderItem={({ item, index }) => {
-              return <CategoryItems key={index} categoryTitle={item.name} categoryId={item.id} showButton={false} storeId={storeId} setSelectedCategory={setSelectedIndex} />
+              return <CategoryItems catalogId={catalogId} key={index} categoryTitle={item.name} categoryId={item.id} showButton={false} storeId={storeId} setSelectedCategory={setSelectedIndex} />
             }}/>
         </>)
           : <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

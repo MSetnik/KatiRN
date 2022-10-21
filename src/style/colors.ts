@@ -15,7 +15,7 @@ export const darkTheme = {
   backgroundDark: '#000000',
   borderColor: 'rgba(0,0,0, 0.2)',
   // discountColor: '#fff400',
-  discountColor: '#ec182b',
+  discountColor: '#0DAF6F',
   discountTextColor: '#FFFFFF'
 }
 

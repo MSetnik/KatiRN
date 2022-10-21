@@ -118,22 +118,26 @@ const ItemCard: React.FC<Props> = props => {
             style={{
               marginTop: Typography.FONT_SIZE_NORMAL,
               justifyContent: 'flex-end',
-              flex: 1
+              flex: 1,
+              paddingBottom: props.itemDiscountedPrice !== props.itemFullPrice ? 20 : Typography.FONT_SIZE_TITLE_MD / 2
             }}>
-            <CategoryPill
-              text={props.itemDiscountPercent + '%'}
-              isDisabled={true}
-              style={{
-                paddingHorizontal: 5,
-                backgroundColor: Colors.themeColor().discountColor,
-                borderRadius: Typography.FONT_SIZE_TITLE_MD / 4
-              }}
-              textStyle={{
-                fontSize: Typography.FONT_SIZE_TITLE_MD / 2,
-                color: Colors.themeColor().discountTextColor,
-                fontWeight: 'bold'
-              }}
-            />
+            {
+              props.itemDiscountedPrice !== props.itemFullPrice &&
+              <CategoryPill
+                text={props.itemDiscountPercent + '%'}
+                isDisabled={true}
+                style={{
+                  paddingHorizontal: 5,
+                  backgroundColor: Colors.themeColor().discountColor,
+                  borderRadius: Typography.FONT_SIZE_TITLE_MD / 4
+                }}
+                textStyle={{
+                  fontSize: Typography.FONT_SIZE_TITLE_MD / 2,
+                  color: Colors.themeColor().discountTextColor,
+                  fontWeight: 'bold'
+                }}
+              />
+            }
 
             <Text style={{
               marginTop: Typography.FONT_SIZE_NORMAL / 4,
@@ -142,16 +146,21 @@ const ItemCard: React.FC<Props> = props => {
             }}>
               {props.itemDiscountedPrice + ' kn'}
             </Text>
-            <Text
-              style={{
-                marginTop: Typography.FONT_SIZE_NORMAL / 4,
-                textDecorationLine: 'line-through',
-                color: Colors.themeColor().textSecondary,
-                fontSize: Typography.FONT_SIZE_TITLE_MD / 2
 
-              }}>
-              {props.itemFullPrice + ' kn'}
-            </Text>
+            {
+              props.itemDiscountedPrice !== props.itemFullPrice &&
+              <Text
+                style={{
+                  marginTop: Typography.FONT_SIZE_NORMAL / 4,
+                  textDecorationLine: 'line-through',
+                  color: Colors.themeColor().textSecondary,
+                  fontSize: Typography.FONT_SIZE_TITLE_MD / 2
+
+                }}>
+                {props.itemFullPrice + ' kn'}
+              </Text>
+            }
+
             <Text style={{
               marginTop: Typography.FONT_SIZE_NORMAL / 4,
               color: Colors.themeColor().textPrimary,
@@ -160,16 +169,20 @@ const ItemCard: React.FC<Props> = props => {
             }}>
               {props.itemDiscountedPriceEur + '€'}
             </Text>
-            <Text
-              style={{
-                marginTop: Typography.FONT_SIZE_NORMAL / 4,
-                // fontSize: Typography.FONT_SIZE_TITLE_MD / 2,
-                fontSize: Typography.FONT_SIZE_MEDIUM / 2,
-                textDecorationLine: 'line-through',
-                color: Colors.themeColor().textSecondary
-              }}>
-              {props.itemFullPriceEur + '€'}
-            </Text>
+
+            {
+              props.itemDiscountedPrice !== props.itemFullPrice &&
+              <Text
+                style={{
+                  marginTop: Typography.FONT_SIZE_NORMAL / 4,
+                  // fontSize: Typography.FONT_SIZE_TITLE_MD / 2,
+                  fontSize: Typography.FONT_SIZE_MEDIUM / 2,
+                  textDecorationLine: 'line-through',
+                  color: Colors.themeColor().textSecondary
+                }}>
+                {props.itemFullPriceEur + '€'}
+              </Text>
+            }
           </View>
 
           <View

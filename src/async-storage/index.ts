@@ -3,6 +3,7 @@ import { IShoppingListItem, IStores } from '../interfaces/endpoints'
 
 const SHOPPING_LIST_PRODUCTS = '@shopping_list_products1'
 const STORES_ASYNC = '@stores_async'
+const FIRST_VISIT = '@first_visit2'
 
 export const storeShoppingList = async (shoppingList: IShoppingListItem[]) => {
   try {
@@ -41,6 +42,27 @@ export const saveStores = async (stores: IStores[]) => {
 export const getStores = async () => {
   try {
     const jsonValue = await AsyncStorage.getItem(STORES_ASYNC)
+
+    return jsonValue != null ? JSON.parse(jsonValue) : null
+  } catch (e) {
+    // error reading value
+    console.log(e)
+  }
+}
+
+export const saveIsFirstVisit = async () => {
+  try {
+    const jsonValue = JSON.stringify(true)
+    await AsyncStorage.setItem(FIRST_VISIT, jsonValue)
+  } catch (e) {
+    // saving error
+    console.log(e)
+  }
+}
+
+export const getIsFirstVisit = async () => {
+  try {
+    const jsonValue = await AsyncStorage.getItem(FIRST_VISIT)
 
     return jsonValue != null ? JSON.parse(jsonValue) : null
   } catch (e) {

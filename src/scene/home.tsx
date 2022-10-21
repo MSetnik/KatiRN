@@ -12,7 +12,7 @@ import { fetchStores } from '../store/store-slice'
 import { Colors } from '../style'
 import HomeCatalogs from './home-catalogs'
 import Lottie from 'lottie-react-native'
-import { getShoppingList, getStores, saveStores, storeShoppingList } from '../async-storage'
+import { getIsFirstVisit, getShoppingList, getStores, saveIsFirstVisit, saveStores, storeShoppingList } from '../async-storage'
 import { loadFromAsync, removeFromList, setShoppingList } from '../store/shopping-list-slice'
 import moment from 'moment'
 
@@ -39,7 +39,8 @@ const Home: React.FC<Props> = (props: any) => {
         dispatch(fetchAllProducts()),
         dispatch(fetchCatalogs()),
         getShoppingList(),
-        getStores()
+        getStores(),
+        getIsFirstVisit()
       ])
         .then(async (resp) => {
           if (resp[1].payload.length !== 0) {
@@ -48,6 +49,11 @@ const Home: React.FC<Props> = (props: any) => {
 
           if (resp[4] !== null) {
             dispatch(setShoppingList(resp[4]))
+          }
+          console.log(resp[6])
+
+          if (resp[6] === null) {
+            await saveIsFirstVisit()
           }
 
           setFetchingData(false)
@@ -86,7 +92,6 @@ const Home: React.FC<Props> = (props: any) => {
           console.log(e)
         })
     }
-
     fetchData()
   }, [])
 

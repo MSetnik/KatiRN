@@ -16,7 +16,8 @@ interface Props {
     onPress?: (params: any) => any | undefined,
     setSelectedCategory?: any,
     storeId?: string,
-    isFirst?: boolean
+    isFirst?: boolean,
+    catalogId?: string
 }
 
 const CategoryItems : React.FC<Props> = (props) => {
@@ -134,7 +135,7 @@ const CategoryItems : React.FC<Props> = (props) => {
               paddingBottom: Typography.FONT_SIZE_NORMAL / 2
             }}
             renderItem={({ item, index }) : any => {
-              if (dateNow >= item.startAt && dateNow <= item.endAt && index < 6) {
+              if (dateNow >= item.startAt && dateNow <= item.endAt && index < 5) {
                 return <ItemCard
                   storeId={item.storeId}
                   itemId={item.id}
@@ -154,7 +155,7 @@ const CategoryItems : React.FC<Props> = (props) => {
                     width: 150
                   }}
                 />
-              } else if (index === 6) {
+              } else if (index === 5) {
                 return (
                   <>
                     <ItemCard
@@ -207,7 +208,8 @@ const CategoryItems : React.FC<Props> = (props) => {
                 numColumns={2}
                 showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}
-                data={props.storeId === undefined ? products.filter((p: IProduct) => p.categoryId === props.categoryId) : products.filter((p: IProduct) => p.categoryId === props.categoryId && p.storeId === props.storeId)}
+                // data={props.storeId === undefined ? products.filter((p: IProduct) => p.categoryId === props.categoryId) : products.filter((p: IProduct) => p.categoryId === props.categoryId && p.catalogId === props.catalogId)}
+                data={ props.storeId === undefined ? products.filter((p: IProduct) => p.categoryId === props.categoryId) : products.filter((p: IProduct) => p.categoryId === props.categoryId && p.catalogId === props.catalogId)}
                 contentContainerStyle={{
                   marginLeft: '5%',
                   alignItems: products.filter((p: IProduct) => p.categoryId === props.categoryId && dateNow >= p.startAt && dateNow <= p.endAt).length === 1 ? 'baseline' : 'center'

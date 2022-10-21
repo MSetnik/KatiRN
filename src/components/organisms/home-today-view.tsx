@@ -47,7 +47,6 @@ const HomeTodayView = (props: any) => {
             }}>
                 {
                   categoriesWithProducts.map((category: ICategory, index: number) => {
-                    // if (category.id !== '1') {
                     return (<CategoryPill
                         key={index}
                         text={category.name}
@@ -60,7 +59,6 @@ const HomeTodayView = (props: any) => {
                           })
                         }}
                       />)
-                    // }
                   })
                 }
         </ScrollView>

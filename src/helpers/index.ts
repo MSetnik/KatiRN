@@ -121,7 +121,6 @@ export const getCurrentCatalogs = (lProducts: IProduct[], lCatalogs: ICatalog[],
   const dateNow = Date.now().toString().substring(0, 10)
 
   const currentCatalogs = lCatalogs.filter((c:ICatalog) => c.dateFrom < dateNow && dateNow < c.dateTo)
-  console.log(currentCatalogs)
 
   const catalogs : any[] = []
 
@@ -144,6 +143,5 @@ export const getCurrentCatalogs = (lProducts: IProduct[], lCatalogs: ICatalog[],
     })
   })
 
-  console.log(catalogs)
   return catalogs
 }
