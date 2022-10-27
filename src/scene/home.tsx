@@ -130,12 +130,6 @@ const Home: React.FC<Props> = (props: any) => {
   if (fetchingData) {
     return (
       <View style={{ flex: 1, backgroundColor: Colors.themeColor().background, justifyContent: 'center', alignItems: 'center' }}>
-        {/* <StatusBar
-          animated={true}
-          backgroundColor={Colors.themeColor().primaryDark}
-          barStyle={'light-content'}
-          showHideTransition={'slide'}
-          hidden={false} /> */}
           <ActivityIndicator size='large' color={Colors.themeColor().primary} />
       </View>
     )
@@ -147,12 +141,7 @@ const Home: React.FC<Props> = (props: any) => {
         backgroundColor: Colors.themeColor().background,
         flex: 1
       }}>
-      {/* <StatusBar
-        animated={true}
-        backgroundColor={Colors.themeColor().primaryDark}
-        barStyle={'light-content'}
-        showHideTransition={'slide'}
-        hidden={false} /> */}
+
       <ViewpagerHeader setSelectedElementIndex={setSelectedElementIndex} />
 
       {

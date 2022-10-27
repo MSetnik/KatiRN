@@ -95,7 +95,7 @@ const SpecialOffer : React.FC<Props> = ({ navigation }) => {
               startAt={item.startAt}
               endAt={item.endAt}
               style={{
-                width: 150
+                width: 170
               }}
             />
         }}

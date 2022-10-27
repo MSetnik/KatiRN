@@ -72,7 +72,7 @@ const HomeTodayView = (props: any) => {
             paddingBottom: Typography.FONT_SIZE_TITLE_MD * 2
           }}
           ref={productsListRef}
-          initialScrollIndex={selectedIndex}
+          // initialScrollIndex={selectedIndex}
           data={categoriesWithProducts}
           renderItem={({ item, index }) => {
             if (index === 0 && item.id === '1') {

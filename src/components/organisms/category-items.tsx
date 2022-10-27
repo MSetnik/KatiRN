@@ -85,7 +85,7 @@ const CategoryItems : React.FC<Props> = (props) => {
           // console.log(viewableItems)
           // console.log(checkIfCategoryHasItems().length - 1 + 'from items')
           props.setSelectedCategory(checkIfCategoryHasItems(i).currentCategoryIndex - 2)
-          // console.log(checkIfCategoryHasItems(i).currentCategoryIndex)
+          console.log(checkIfCategoryHasItems(i).currentCategoryIndex)
         }
       }
 
@@ -129,7 +129,8 @@ const CategoryItems : React.FC<Props> = (props) => {
             showsVerticalScrollIndicator={false}
             data={products.filter((p: IProduct) => p.categoryId === '1' && dateNow >= p.startAt && dateNow <= p.endAt)}
             contentContainerStyle={{
-              paddingLeft: 20
+              paddingHorizontal: '5%'
+
             }}
             style={{
               paddingBottom: Typography.FONT_SIZE_NORMAL / 2
@@ -211,16 +212,19 @@ const CategoryItems : React.FC<Props> = (props) => {
                 // data={props.storeId === undefined ? products.filter((p: IProduct) => p.categoryId === props.categoryId) : products.filter((p: IProduct) => p.categoryId === props.categoryId && p.catalogId === props.catalogId)}
                 data={ props.storeId === undefined ? products.filter((p: IProduct) => p.categoryId === props.categoryId) : products.filter((p: IProduct) => p.categoryId === props.categoryId && p.catalogId === props.catalogId)}
                 contentContainerStyle={{
-                  marginLeft: '5%',
-                  alignItems: products.filter((p: IProduct) => p.categoryId === props.categoryId && dateNow >= p.startAt && dateNow <= p.endAt).length === 1 ? 'baseline' : 'center'
+                  // marginLeft: '5%',
+                  alignItems: products.filter((p: IProduct) => p.categoryId === props.categoryId && dateNow >= p.startAt && dateNow <= p.endAt).length === 1 ? 'baseline' : 'baseline'
                 }}
                 style={{
-                  alignSelf: 'auto',
-                  alignItems: products.filter((p: IProduct) => p.categoryId === props.categoryId && dateNow >= p.startAt && dateNow <= p.endAt).length === 1 ? 'baseline' : 'center',
-                  marginLeft: products.filter((p: IProduct) => p.categoryId === props.categoryId && dateNow >= p.startAt && dateNow <= p.endAt).length === 1 ? '5%' : 0
+                  paddingHorizontal: '5%'
+                  // alignSelf: 'auto',
+                  // alignItems: products.filter((p: IProduct) => p.categoryId === props.categoryId && dateNow >= p.startAt && dateNow <= p.endAt).length === 1 ? 'baseline' : 'baseline',
+                  // alignItems: 'center',
+                  // margin: 'auto'
+                  // marginLeft: products.filter((p: IProduct) => p.categoryId === props.categoryId && dateNow >= p.startAt && dateNow <= p.endAt).length === 1 ? '5%' : 0
                 }}
-                onViewableItemsChanged={ onViewableItemsChanged }
-                viewabilityConfig={ viewabilityConfig }
+                // onViewableItemsChanged={ onViewableItemsChanged }
+                // viewabilityConfig={ viewabilityConfig }
                 renderItem={({ item }) => {
                   if (item.categoryId === props.categoryId && dateNow >= item.startAt && dateNow <= item.endAt) {
                     return <ItemCard

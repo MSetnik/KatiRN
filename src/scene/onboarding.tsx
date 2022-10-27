@@ -11,7 +11,8 @@ interface Props {
 const OnBoarding : React.FC<Props> = ({ navigation }) => {
   const onboardingRef : any = useRef<Onboarding>(null)
   return (
-    <Onboarding
+    <View style={{ flex: 1, paddingBottom: 48, backgroundColor: '#000000' }}>
+      <Onboarding
         ref={onboardingRef}
         onSkip={() => {
           onboardingRef.current.goToPage(3, true)
@@ -25,7 +26,7 @@ const OnBoarding : React.FC<Props> = ({ navigation }) => {
             subtitle: 'Jednostavan prikaz kataloga kako bi vam olakšali kupovinu'
           },
           {
-            backgroundColor: Colors.themeColor().primaryDark,
+            backgroundColor: Colors.themeColor().primary,
             image: <Image style={{ borderRadius: Typography.FONT_SIZE_TITLE_MD / 2 }} source={require('../assets/onboarding/onboarding2.png')} />,
             title: 'Spremanje proizvoda',
             subtitle: 'Spremite proizvod u košaricu kako bi si napravili popis za trgovinu'
@@ -37,13 +38,15 @@ const OnBoarding : React.FC<Props> = ({ navigation }) => {
             subtitle: 'Spremljeni proizvodi na jednome mjestu, prikazani po trgovini za lakše snalaženje'
           },
           {
-            backgroundColor: Colors.themeColor().primaryDark,
+            backgroundColor: Colors.themeColor().primary,
             image: <Image style={{ borderRadius: Typography.FONT_SIZE_TITLE_MD / 2 }} source={require('../assets/onboarding/onboarding4.png')} />,
             title: 'Ujedno i popis za trgovinu',
             subtitle: 'Jednostavno dodavanje bilježaka ukoliko želite dodati proizvod kojega nema na akciji'
           }
         ]}
     />
+  </View>
+
   )
 }
 

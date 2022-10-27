@@ -14,6 +14,8 @@ export const checkIfCategoryHasItemsHelper = (categories: ICategory[], products:
     })
   })
 
+  categoriesWithProductsHelper.sort((a, b) => a.id.length - b.id.length)
+
   return categoriesWithProductsHelper
 }
 
@@ -80,6 +82,8 @@ export const checkIfCatalogCategoryHasItemsHelper = (categories: ICategory[], pr
       }
     })
   })
+
+  categoriesWithProductsHelper.sort((a, b) => a.id.length - b.id.length)
 
   return categoriesWithProductsHelper
 }
